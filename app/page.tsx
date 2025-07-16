@@ -1,10 +1,15 @@
 import React from 'react'
 import SignIn from "@/components/sign-in";
+import {auth} from "@/auth";
+import SignOut from "@/components/sign-out";
 
-const Page = () => {
+const Page =async () => {
+    const session = await auth();
     return (
         <div>Page
-            <SignIn/></div>
+            {session && session?.user? (<div>Hello {session.user.name} <SignOut/></div> ):( <SignIn/>)}
+
+        </div>
 
     )
 }
