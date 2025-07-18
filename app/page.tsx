@@ -6,7 +6,7 @@ import SignOut from "@/components/sign-out";
 const Page =async () => {
     const session = await auth();
     return (
-        <div>Page
+        <div className="flex flex-col justify-between items-center">Page
             {session && session?.user? (<div>Hello {session.user.name} <SignOut/></div> ):( <SignIn/>)}
 
         </div>
