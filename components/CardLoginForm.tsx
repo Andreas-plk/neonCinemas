@@ -16,9 +16,10 @@ import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import SignInClient from "@/components/sign-in-client";
+import Link from "next/link";
 
 
-const CardForm = () => {
+const CardLoginForm = () => {
 
     const [visible, setVisible] = useState(false);
     const formSchema = z.object({
@@ -54,11 +55,11 @@ const CardForm = () => {
 
     return (
         <div className="relative bg-[linear-gradient(to_right,_theme(colors.bg)_50%,_theme(colors.second)_50%)]  rounded-md
-        w-[70vw] h-[60vh] shadow-md shadow-primer flex">
+        w-[70vw] h-[60vh] shadow-md shadow-primer/50 flex">
             <div className="absolute inset-0 flex">
 
-                <div className="w-1/2 flex flex-col items-center justify-center text-text">
-                    <h1 className="text-3xl font-bold mb-3">LOGIN</h1>
+                <div className="w-1/2 flex flex-col items-center justify-center">
+                    <h1 className="text-3xl font-bold mb-3 tracking-widest">LOGIN</h1>
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                             <FormField
@@ -96,9 +97,9 @@ const CardForm = () => {
                                 </FormItem>
                             )}
                         />  <span className="flex flex-row justify-between items-center">
-                                <Button className="cursor-pointer rounded-4xl bg-primer w-[100px] hover:bg-second hover:shadow-lg hover:shadow-second/70 hover:ease-in hover:transition" type="submit">Login</Button>
+                                <Button className="cursor-pointer rounded-4xl bg-primer w-[100px] hover:bg-second button-glow" type="submit">Login</Button>
                             <p className=" font-semibold">OR USE</p>
-                            <p className="text-primer border-none rounded-full flex p-1 hover:text-second hover:shadow-lg hover:shadow-second/70 hover:ease-in hover:transition"><SignInClient/></p>
+                            <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow"><SignInClient/></p>
                             </span>
 
                         </form>
@@ -106,10 +107,19 @@ const CardForm = () => {
                 </div>
 
 
-                <div className="w-1/2 flex items-center justify-center text-black">
-                    <div>
-                        <h1 className="text-3xl font-bold">Right Side</h1>
-                        <p>This is over the pink background.</p>
+                <div className="w-1/2 flex flex-col items-center justify-center text-black">
+                    <div className="w-3/4 flex flex-col items-center justify-center">
+                        <h1 className="text-3xl font-bold uppercase  mb-5">welcome back</h1>
+                        <p className="mb-5 text-center">Join us and experience NEON CINEMAS.
+                            We have all the latest movies for every taste.
+                            Get ready for another unforgettable experience
+                            in our state-of-the-art facilities.  </p>
+                    </div>
+                    <div className="flex flex-col items-center justify-center ">
+                        <p className= "mb-3">
+                            You don`t have an account yet?
+                        </p>
+                        <Button><Link href="/sign-up">Create one here</Link> </Button>
                     </div>
                 </div>
             </div>
@@ -117,4 +127,4 @@ const CardForm = () => {
         </div>
     )
 }
-export default CardForm
+export default CardLoginForm

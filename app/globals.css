@@ -121,6 +121,16 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-bg text-text;
   }
+}
+
+.gradient-bg{
+  @apply h-screen bg-gradient-to-br from-bg from-20% via-[#2c2c2c] via-55% to-second to-120%;
+}
+.button-glow{
+  @apply hover:shadow-lg hover:shadow-second/70 hover:ease-in-out transition-all duration-700;
+}
+.glow{
+  @apply hover:drop-shadow-md hover:drop-shadow-second/60 hover:ease-in-out transition-all duration-700;
 }
