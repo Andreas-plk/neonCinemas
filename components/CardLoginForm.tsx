@@ -97,7 +97,7 @@ const CardLoginForm = () => {
                                 </FormItem>
                             )}
                         />  <span className="flex flex-row justify-between items-center">
-                                <Button className="cursor-pointer rounded-4xl bg-primer w-[100px] hover:bg-second button-glow" type="submit">Login</Button>
+                            <Button className="cursor-pointer rounded-4xl bg-primer w-[100px] hover:bg-second button-glow" type="submit">Login</Button>
                             <p className=" font-semibold">OR USE</p>
                             <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow"><SignInClient/></p>
                             </span>

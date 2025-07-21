@@ -10,7 +10,7 @@ const Layout = ({
     return (
        <main className="gradient-bg">
            <div className="flex flex-col justify-between items-center">
-                <Link href={"/"}><Image className="mt-15 filter glow" src={"/noBgColor.png"} alt={"logo"} width={400} height={400} /></Link>
+                <Link href={"/"}><Image className="mt-15 glow" src={"/noBgColor.png"} alt={"logo"} width={400} height={400} /></Link>
                {children}
             </div>
 
