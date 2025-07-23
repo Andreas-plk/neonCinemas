@@ -14,13 +14,13 @@ import SignOut from "@/components/sign-out";
 const Navbar = async () => {
     const session = await auth();
     return (
-        <nav className="w-full">
+        <nav className="w-full shadow-md shadow-second rounded-b-xl">
             <div className="mx-auto px-10 py-3 flex items-center justify-between">
 
                 <div className="flex items-center gap-30">
 
                     <Link href="/" className="text-xl font-bold text-primary">
-                        <Image className="glow" src={"/noBgColor.png"} alt={"logo"} width={400} height={40} ></Image>
+                        <Image className="glow w-[400px] " src={"/noBgColor.png"} alt={"logo"} width={400} height={400} ></Image>
                     </Link>
 
 

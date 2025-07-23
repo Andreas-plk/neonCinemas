@@ -1,5 +1,5 @@
 import React from 'react'
-import CardSignUpForm from "@/components/ui/CardSignUpForm";
+import CardSignUpForm from "@/components/CardSignUpForm";
 
 const Page = () => {
     return (
