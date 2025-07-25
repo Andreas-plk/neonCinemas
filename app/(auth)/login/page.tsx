@@ -5,7 +5,7 @@ const LoginForm = () => {
 
 
     return (
-            <div className=" mt-10">
+            <div className="mt-4 md:mt-10">
                 <CardLoginForm/>
             </div>
     )

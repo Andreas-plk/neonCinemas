@@ -121,23 +121,42 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-bg text-text;
+    @apply min-h-screen bg-gradient-to-br from-bg from-20% via-[#2c2c2c] via-55% to-second to-120% text-text;
   }
 }
 
-.gradient-bg{
-  @apply h-screen bg-gradient-to-br from-bg from-20% via-[#2c2c2c] via-55% to-second to-120%;
+
+.gradient-bg {
+  @apply min-h-screen bg-gradient-to-br from-bg from-20% via-[#2c2c2c] via-55% to-second to-120%;
 }
-.button-glow{
+
+.button-glow {
   @apply hover:shadow-lg hover:shadow-second/70 hover:ease-in-out transition-all duration-700;
 }
-.glow{
+
+.glow {
   @apply hover:drop-shadow-md hover:drop-shadow-second/60 hover:ease-in-out transition-all duration-700;
 }
-.movie-card{
+
+.movie-card {
   @apply flex flex-col justify-between p-3 rounded-tr-2xl bg-gray-800 w-66 hover:translate-y-1 hover:scale-101 hover:rotate-1
   hover:shadow-md hover:shadow-second/60 transition duration-400;
 }
-.my-button{
-  @apply bg-primer rounded-2xl hover:bg-second transition-all duration-700 cursor-pointer;
+
+.my-button {
+  @apply bg-primer rounded-3xl hover:bg-second hover:text-black transition-all w-[100px] duration-700 cursor-pointer text-shadow-black text-shadow-md hover:text-shadow-none;
 }
+
+.fade-shadow-right::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 10px; /* Adjust height as needed */
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(255, 118, 117, 0.4) 0%, rgba(255, 118, 117, 0.2) 40%, rgba(255, 118, 117, 0) 100%);
+  z-index: -1;
+
+}
+

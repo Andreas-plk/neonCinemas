@@ -3,7 +3,7 @@ import CardSignUpForm from "@/components/CardSignUpForm";
 
 const Page = () => {
     return (
-        <div className="mt-10">
+        <div className="mt-4 md:mt-10">
             <CardSignUpForm/>
         </div>
     )
