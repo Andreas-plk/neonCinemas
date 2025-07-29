@@ -89,7 +89,7 @@ const Navbar = ({ session }: NavbarProps) => {
                             <SignOutClient />
                         </>
                     ) : (
-                        <Link href="/login">
+                        <Link href="/authorization">
                             <Button className="my-button button-glow">
                                 Login
                             </Button>

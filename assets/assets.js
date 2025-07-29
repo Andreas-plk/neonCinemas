@@ -33,25 +33,25 @@ export const dummyTrailers = [
     },
 ]
 
-// const dummyCastsData = [
-//     { "name": "Milla Jovovich", "profile_path": "https://image.tmdb.org/t/p/original/usWnHCzbADijULREZYSJ0qfM00y.jpg", },
-//     { "name": "Dave Bautista", "profile_path": "https://image.tmdb.org/t/p/original/snk6JiXOOoRjPtHU5VMoy6qbd32.jpg", },
-//     { "name": "Arly Jover", "profile_path": "https://image.tmdb.org/t/p/original/zmznPrQ9GSZwcOIUT0c3GyETwrP.jpg", },
-//     { "name": "Amara Okereke", "profile_path": "https://image.tmdb.org/t/p/original/nTSPtzWu6deZTJtWXHUpACVznY4.jpg", },
-//     { "name": "Fraser James", "profile_path": "https://image.tmdb.org/t/p/original/mGAPQG2OKTgdKFkp9YpvCSqcbgY.jpg", },
-//     { "name": "Deirdre Mullins", "profile_path": "https://image.tmdb.org/t/p/original/lJm89neuiVlYISEqNpGZA5kTAnP.jpg", },
-//     { "name": "Sebastian Stankiewicz", "profile_path": "https://image.tmdb.org/t/p/original/hLN0Ca09KwQOFLZLPIEzgTIbqqg.jpg", },
-//     { "name": "Tue Lunding", "profile_path": "https://image.tmdb.org/t/p/original/qY4W0zfGBYzlCyCC0QDJS1Muoa0.jpg", },
-//     { "name": "Jacek Dzisiewicz", "profile_path": "https://image.tmdb.org/t/p/original/6Ksb8ANhhoWWGnlM6O1qrySd7e1.jpg", },
-//     { "name": "Ian Hanmore", "profile_path": "https://image.tmdb.org/t/p/original/yhI4MK5atavKBD9wiJtaO1say1p.jpg", },
-//     { "name": "Eveline Hall", "profile_path": "https://image.tmdb.org/t/p/original/uPq4xUPiJIMW5rXF9AT0GrRqgJY.jpg", },
-//     { "name": "Kamila Klamut", "profile_path": "https://image.tmdb.org/t/p/original/usWnHCzbADijULREZYSJ0qfM00y.jpg", },
-//     { "name": "Caoilinn Springall", "profile_path": "https://image.tmdb.org/t/p/original/uZNtbPHowlBYo74U1qlTaRlrdiY.jpg", },
-//     { "name": "Jan Kowalewski", "profile_path": "https://image.tmdb.org/t/p/original/snk6JiXOOoRjPtHU5VMoy6qbd32.jpg", },
-//     { "name": "Pawel Wysocki", "profile_path": "https://image.tmdb.org/t/p/original/zmznPrQ9GSZwcOIUT0c3GyETwrP.jpg", },
-//     { "name": "Simon Lööf", "profile_path": "https://image.tmdb.org/t/p/original/cbZrB8crWlLEDjVUoak8Liak6s.jpg", },
-//     { "name": "Tomasz Cymerman", "profile_path": "https://image.tmdb.org/t/p/original/nTSPtzWu6deZTJtWXHUpACVznY4.jpg", }
-// ]
+const dummyCastsData = [
+    { "name": "Milla Jovovich", "profile_path": "https://image.tmdb.org/t/p/original/usWnHCzbADijULREZYSJ0qfM00y.jpg", },
+    { "name": "Dave Bautista", "profile_path": "https://image.tmdb.org/t/p/original/snk6JiXOOoRjPtHU5VMoy6qbd32.jpg", },
+    { "name": "Arly Jover", "profile_path": "https://image.tmdb.org/t/p/original/zmznPrQ9GSZwcOIUT0c3GyETwrP.jpg", },
+    { "name": "Amara Okereke", "profile_path": "https://image.tmdb.org/t/p/original/nTSPtzWu6deZTJtWXHUpACVznY4.jpg", },
+    { "name": "Fraser James", "profile_path": "https://image.tmdb.org/t/p/original/mGAPQG2OKTgdKFkp9YpvCSqcbgY.jpg", },
+    { "name": "Deirdre Mullins", "profile_path": "https://image.tmdb.org/t/p/original/lJm89neuiVlYISEqNpGZA5kTAnP.jpg", },
+    { "name": "Sebastian Stankiewicz", "profile_path": "https://image.tmdb.org/t/p/original/hLN0Ca09KwQOFLZLPIEzgTIbqqg.jpg", },
+    { "name": "Tue Lunding", "profile_path": "https://image.tmdb.org/t/p/original/qY4W0zfGBYzlCyCC0QDJS1Muoa0.jpg", },
+    { "name": "Jacek Dzisiewicz", "profile_path": "https://image.tmdb.org/t/p/original/6Ksb8ANhhoWWGnlM6O1qrySd7e1.jpg", },
+    { "name": "Ian Hanmore", "profile_path": "https://image.tmdb.org/t/p/original/yhI4MK5atavKBD9wiJtaO1say1p.jpg", },
+    { "name": "Eveline Hall", "profile_path": "https://image.tmdb.org/t/p/original/uPq4xUPiJIMW5rXF9AT0GrRqgJY.jpg", },
+    { "name": "Kamila Klamut", "profile_path": "https://image.tmdb.org/t/p/original/usWnHCzbADijULREZYSJ0qfM00y.jpg", },
+    { "name": "Caoilinn Springall", "profile_path": "https://image.tmdb.org/t/p/original/uZNtbPHowlBYo74U1qlTaRlrdiY.jpg", },
+    { "name": "Jan Kowalewski", "profile_path": "https://image.tmdb.org/t/p/original/snk6JiXOOoRjPtHU5VMoy6qbd32.jpg", },
+    { "name": "Pawel Wysocki", "profile_path": "https://image.tmdb.org/t/p/original/zmznPrQ9GSZwcOIUT0c3GyETwrP.jpg", },
+    { "name": "Simon Lööf", "profile_path": "https://image.tmdb.org/t/p/original/cbZrB8crWlLEDjVUoak8Liak6s.jpg", },
+    { "name": "Tomasz Cymerman", "profile_path": "https://image.tmdb.org/t/p/original/nTSPtzWu6deZTJtWXHUpACVznY4.jpg", }
+]
 
 export const dummyShowsData = [
     {
@@ -66,7 +66,7 @@ export const dummyShowsData = [
             { "id": 14, "name": "Fantasy" },
             { "id": 12, "name": "Adventure" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-02-27",
         "original_language": "en",
         "tagline": "She seeks the power to free her people.",
@@ -85,7 +85,7 @@ export const dummyShowsData = [
             { "id": 27, "name": "Horror" },
             { "id": 9648, "name": "Mystery" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-04-23",
         "original_language": "en",
         "tagline": "Every night a different nightmare.",
@@ -105,7 +105,7 @@ export const dummyShowsData = [
             { "id": 35, "name": "Comedy" },
             { "id": 878, "name": "Science Fiction" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-05-17",
         "original_language": "en",
         "tagline": "Hold on to your coconuts.",
@@ -125,7 +125,7 @@ export const dummyShowsData = [
             { "id": 80, "name": "Crime" },
             { "id": 53, "name": "Thriller" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-04-25",
         "original_language": "en",
         "tagline": "No law. Only disorder.",
@@ -146,7 +146,7 @@ export const dummyShowsData = [
             { "id": 12, "name": "Adventure" },
             { "id": 14, "name": "Fantasy" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-03-31",
         "original_language": "en",
         "tagline": "Be there and be square.",
@@ -166,7 +166,7 @@ export const dummyShowsData = [
             { "id": 12, "name": "Adventure" },
             { "id": 53, "name": "Thriller" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-05-17",
         "original_language": "en",
         "tagline": "Our lives are the sum of our choices.",
@@ -177,7 +177,7 @@ export const dummyShowsData = [
     {
         "_id": "986056",
         "id": 986056,
-        "title": "Thunderbolts*",
+        "title": "Thunderbolts",
         "overview": "After finding themselves ensnared in a death trap, seven disillusioned castoffs must embark on a dangerous mission that will force them to confront the darkest corners of their pasts.",
         "poster_path": "https://image.tmdb.org/t/p/original/m9EtP1Yrzv6v7dMaC9mRaGhd1um.jpg",
         "backdrop_path": "https://image.tmdb.org/t/p/original/rthMuZfFv4fqEU4JVbgSW9wQ8rs.jpg",
@@ -186,7 +186,7 @@ export const dummyShowsData = [
             { "id": 878, "name": "Science Fiction" },
             { "id": 12, "name": "Adventure" }
         ],
-        // "casts": dummyCastsData,
+        "casts": dummyCastsData,
         "release_date": "2025-04-30",
         "original_language": "en",
         "tagline": "Everyone deserves a second shot.",
@@ -196,28 +196,33 @@ export const dummyShowsData = [
     }
 ]
 
-// export const dummyDateTimeData = {
-//     "2025-07-24": [
-//         { "time": "2025-07-24T01:00:00.000Z", "showId": "68395b407f6329be2bb45bd1" },
-//         { "time": "2025-07-24T03:00:00.000Z", "showId": "68395b407f6329be2bb45bd2" },
-//         { "time": "2025-07-24T05:00:00.000Z", "showId": "68395b407f6329be2bb45bd3" }
-//     ],
-//     "2025-07-25": [
-//         { "time": "2025-07-25T01:00:00.000Z", "showId": "68395b407f6329be2bb45bd4" },
-//         { "time": "2025-07-25T03:00:00.000Z", "showId": "68395b407f6329be2bb45bd5" },
-//         { "time": "2025-07-25T05:00:00.000Z", "showId": "68395b407f6329be2bb45bd6" }
-//     ],
-//     "2025-07-26": [
-//         { "time": "2025-07-26T01:00:00.000Z", "showId": "68395b407f6329be2bb45bd7" },
-//         { "time": "2025-07-26T03:00:00.000Z", "showId": "68395b407f6329be2bb45bd8" },
-//         { "time": "2025-07-26T05:00:00.000Z", "showId": "68395b407f6329be2bb45bd9" }
-//     ],
-//     "2025-07-27": [
-//         { "time": "2025-07-27T01:00:00.000Z", "showId": "68395b407f6329be2bb45bda" },
-//         { "time": "2025-07-27T03:00:00.000Z", "showId": "68395b407f6329be2bb45bdb" },
-//         { "time": "2025-07-27T05:00:00.000Z", "showId": "68395b407f6329be2bb45bdc" }
-//     ]
-// }
+export const dummyDateTimeData = {
+    "2025-07-24": [
+        { "time": "2025-07-24T01:00:00.000Z", "showId": "68395b407f6329be2bb45bd1" },
+        { "time": "2025-07-24T03:00:00.000Z", "showId": "68395b407f6329be2bb45bd2" },
+        { "time": "2025-07-24T05:00:00.000Z", "showId": "68395b407f6329be2bb45bd3" }
+    ],
+    "2025-07-25": [
+        { "time": "2025-07-25T01:00:00.000Z", "showId": "68395b407f6329be2bb45bd4" },
+        { "time": "2025-07-25T03:00:00.000Z", "showId": "68395b407f6329be2bb45bd5" },
+        { "time": "2025-07-25T05:00:00.000Z", "showId": "68395b407f6329be2bb45bd6" }
+    ],
+    "2025-07-26": [
+        { "time": "2025-07-26T01:00:00.000Z", "showId": "68395b407f6329be2bb45bd7" },
+        { "time": "2025-07-26T03:00:00.000Z", "showId": "68395b407f6329be2bb45bd8" },
+        { "time": "2025-07-26T05:00:00.000Z", "showId": "68395b407f6329be2bb45bd9" }
+    ],
+    "2025-07-27": [
+        { "time": "2025-07-27T01:00:00.000Z", "showId": "68395b407f6329be2bb45bda" },
+        { "time": "2025-07-27T03:00:00.000Z", "showId": "68395b407f6329be2bb45bdb" },
+        { "time": "2025-07-27T05:00:00.000Z", "showId": "68395b407f6329be2bb45bdc" }
+    ],
+    "2025-07-28": [
+        { "time": "2025-07-27T01:00:00.000Z", "showId": "68395b407f6329be2bb45bda" },
+        { "time": "2025-07-27T03:00:00.000Z", "showId": "68395b407f6329be2bb45bdb" },
+        { "time": "2025-07-27T05:00:00.000Z", "showId": "68395b407f6329be2bb45bdc" }
+    ]
+}
 
 // export const dummyDashboardData = {
 //     "totalBookings": 14,

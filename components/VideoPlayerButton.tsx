@@ -5,7 +5,7 @@ import {FaPlayCircle} from "react-icons/fa";
 import {dummyTrailers} from "@/assets/assets";
 import {getYouTubeEmbedUrl} from "@/lib/utils";
 const VideoPlayerButton = () => {
-    const trailerUrl=new URL (getYouTubeEmbedUrl(dummyTrailers[0].videoUrl)|| "");
+    const trailerUrl=getYouTubeEmbedUrl(dummyTrailers[0].videoUrl)|| "";
 
     const [isOpen, setIsOpen] = useState(false);
 

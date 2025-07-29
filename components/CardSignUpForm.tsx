@@ -18,8 +18,10 @@ import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import SignInClient from "@/components/sign-in-client";
 import Link from "next/link";
 
-
-const CardSignUpForm = () => {
+type CardProps = {
+    onClick: (e: React.SyntheticEvent) => void;
+};
+const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
 
     const [visiblePassword, setVisiblePassword] = useState(false);
     const [visibleRepeat, setVisibleRepeat] = useState(false);
@@ -152,7 +154,7 @@ const CardSignUpForm = () => {
                         <p className="mb-3">
                             You already have an account?
                         </p>
-                        <Button><Link href="/login">Login one here</Link> </Button>
+                        <Button className="cursor-pointer" onClick={onClick}>Login one here</Button>
                     </div>
                 </div>
             </div>

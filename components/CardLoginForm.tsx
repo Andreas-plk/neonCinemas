@@ -16,14 +16,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import SignInClient from "@/components/sign-in-client";
-import Link from "next/link";
 
-const CardLoginForm = () => {
+type CardProps = {
+    onClick: (e: React.SyntheticEvent) => void;
+};
+
+
+const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
     const [visible, setVisible] = useState(false);
 
     const formSchema = z.object({
         email: z
-            .string()
             .email({ message: "Email is required" }),
         password: z
             .string()
@@ -133,8 +136,8 @@ const CardLoginForm = () => {
                 </div>
                 <div className="text-center">
                     <p className="mb-3">You don’t have an account yet?</p>
-                    <Button asChild>
-                        <Link href="/sign-up">Create one here</Link>
+                    <Button className="cursor-pointer" onClick={onClick}>
+                        Create one here
                     </Button>
                 </div>
             </div>
