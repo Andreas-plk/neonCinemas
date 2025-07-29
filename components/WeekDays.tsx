@@ -18,6 +18,7 @@ import {
     TableCell,
     TableRow,
 } from "@/components/ui/table"
+import {AnimatePresence, motion} from "motion/react";
 
 const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
     const dummyCinemas:string[]=["Athens","Thessaloniki","Volos"];
@@ -26,12 +27,12 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
     const [selectedDate, setSelectedDate] = useState("")
     const [selectedScreening, setSelectedScreening] = useState<string[] | null>(null);
     return (
-        <div id="selectDate" className="pt-20">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-10
+        <motion.div id="selectDate" className="pt-20" layout  transition={{ layout: { duration: 0.7, ease: "easeIn" } }}>
+            <motion.div layout className="flex flex-col md:flex-row items-center justify-between gap-10
                             relative p-8 bg-second/10 border border-second/20 rounded-md">
                 <div>
                     <p className="text-lg font-semibold">Select Cinema</p>
-                    <div className="flex items-center gap-6 text-sm mt-5">
+                    <motion.div layout className="flex items-center gap-6 text-sm mt-5">
                         <Select onValueChange={setSelectedCinema}>
                             <SelectTrigger className="w-[180px] cursor-pointer">
                                 <SelectValue placeholder="Select Cinema" />
@@ -45,15 +46,18 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                                 </SelectGroup>
                             </SelectContent>
                         </Select>
-                    </div>
+                    </motion.div>
                 </div>
                 {/* Date Selection */}
-                {selectedCinema && (
-                    <div>
-                        <p className="text-lg font-semibold">Choose Date</p>
-                        <div className="flex items-center gap-6 text-sm mt-5">
-                            <ChevronLeftIcon width={28} />
-                            <span className="grid grid-cols-3 gap-3 md:flex flex-wrap md:max-w-lg">
+                <AnimatePresence initial={false}>
+                    {selectedCinema && (
+                        <motion.div layout initial={{ opacity: 0 ,y:-50,}}
+                                    animate={{ opacity: 1 ,y:0,transition: { duration: 0.7,ease: 'easeIn' } }}
+                                    key="box">
+                            <p className="text-lg font-semibold">Choose Date</p>
+                            <div className="flex items-center gap-6 text-sm mt-5">
+                                <ChevronLeftIcon width={28} />
+                                <span className="grid grid-cols-3 gap-3 md:flex flex-wrap md:max-w-lg">
                                 {Object.keys(dateTime).slice(0, 5).map((date) => (
                                     <Button
                                         onClick={() => setSelectedDate(date)}
@@ -65,16 +69,22 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                                     </Button>
                                 ))}
                             </span>
-                            <ChevronRightIcon width={28} />
-                        </div>
-                    </div>
-                )}
+                                <ChevronRightIcon width={28} />
+                            </div>
+                        </motion.div>
+                    )}
+
+                </AnimatePresence>
+
 
 
 
                 {/* Screening Selection */}
+                <AnimatePresence initial={false}>
                 {selectedDate && (
-                    <div>
+                    <motion.div layout initial={{ opacity: 0 ,y:-50,}}
+                                animate={{ opacity: 1 ,y:0,transition: { duration: 0.7,ease:"easeIn" } }}
+                                key="box">
                         <p className="text-lg font-semibold">Select Screening</p>
                         <div className="flex items-center gap-6 text-sm mt-5">
                             <Table>
@@ -92,14 +102,15 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                                 </TableBody>
                             </Table>
                         </div>
-                    </div>
+                    </motion.div>
                 )}
+                </AnimatePresence>
 
                      <Button className="my-button button-glow scale-120 ">Book now</Button>
 
 
-            </div>
-        </div>
+            </motion.div>
+        </motion.div>
 
 
     )
