@@ -42,15 +42,11 @@ const FlipForm = () => {
     };
 
 
-    // Style for cards to stack on top of each other and hide backface
-    const cardStyle: React.CSSProperties = {
-        // position: 'absolute',
-    };
 
     return (
-        <div className="w-screen">
+        <div className="w-screen h-[90vh] md:h-[70vh] flex items-center justify-center relative">
             <motion.div
-                style={cardStyle}
+
                 variants={variants[direction]}
                 initial="visible"
                 animate={isFlipped ? "hidden" : "visible"}
@@ -61,7 +57,7 @@ const FlipForm = () => {
             </motion.div>
 
             <motion.div
-                style={cardStyle}
+
                 variants={variants[direction]}
                 initial="hidden"
                 animate={isFlipped ? "visible" : "hidden"}

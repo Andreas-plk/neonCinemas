@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import SignOutClient from "@/components/sign-out-client";
 import { Menu, X } from "lucide-react";
+import { motion } from "motion/react";
 
 type NavbarProps = {
     session: { user: { name: string } } | null;
@@ -99,6 +100,7 @@ const Navbar = ({ session }: NavbarProps) => {
 
                 {/* Mobile menu toggle */}
                 <button
+
                     className="md:hidden p-2"
                     onClick={() => setMobileOpen(!mobileOpen)}
                     aria-label="Toggle menu"
@@ -109,7 +111,7 @@ const Navbar = ({ session }: NavbarProps) => {
 
             {/* Mobile menu */}
             {mobileOpen && (
-                <div className="md:hidden px-4 pb-4 space-y-4">
+                <div  className="md:hidden px-4 pb-4 space-y-4">
                     <div>
                         <p className="font-semibold">Cinemas</p>
                         <ul className="ml-2 mt-2 space-y-2 text-sm">

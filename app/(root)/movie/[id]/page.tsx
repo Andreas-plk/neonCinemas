@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/tooltip"
 import { motion } from 'motion/react';
 import WeekDays from "@/components/WeekDays";
+import Link from "next/link";
 
 type ShowType = {
     movie: typeof dummyShowsData[number];
@@ -32,6 +33,12 @@ const Page = () => {
             dateTime:dummyDateTimeData
         });
     }
+    const scrollToTickets = () => {
+        const element = document.getElementById('tickets');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     useEffect(() => {
         getShow();
@@ -61,7 +68,7 @@ const Page = () => {
                     </div>
                     <div className="flex flex-col md:flex-row justify-start items-center  gap-7">
                         <VideoPlayerButton/>
-                        <Button className="my-button button-glow !w-[150]">Buy tickets</Button>
+                        <Button onClick={()=>scrollToTickets()} className="my-button button-glow !w-[150]">Buy tickets</Button>
 
                         <motion.div
                             whileHover={{ scale: 1.1 }}
@@ -104,7 +111,9 @@ const Page = () => {
 
                 <img src={show.movie.poster_path} alt="Movie cover"  className="max-md:mx-auto rounded-xl h-104 max-w-70 object-cover shadow shadow-2xl" />
             </div>
+            <div id="tickets">
                     <WeekDays dateTime={show.dateTime} id={id}/>
+            </div>
 
 
 

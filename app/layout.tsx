@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat} from "next/font/google";
 import "./globals.css";
+import {Toaster} from "@/components/ui/sonner";
 
 
 
@@ -21,11 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className='scroll-smooth'>
       <body
         className={`${montserratSans.className}  antialiased`}
       >
         {children}
+      <Toaster/>
       </body>
     </html>
   );

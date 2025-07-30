@@ -19,13 +19,29 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {AnimatePresence, motion} from "motion/react";
+import {toast} from "sonner";
+import { useRouter } from 'next/navigation'
 
 const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
     const dummyCinemas:string[]=["Athens","Thessaloniki","Volos"];
     const dummyTimes=[["16:00","Room 2"],["18:00","Room 1"],["21:00","Room 2"]];
     const [selectedCinema, setSelectedCinema] = useState("");
     const [selectedDate, setSelectedDate] = useState("")
-    const [selectedScreening, setSelectedScreening] = useState<string[] | null>(null);
+    const [selectedScreening, setSelectedScreening] = useState<string[] | null>(null)
+    const router = useRouter();
+    const bookingHandler=()=>{
+        if(!selectedCinema || !selectedDate || !selectedScreening){
+            return toast("Please select all the options",{
+                action:{
+                    label:"X",
+                    onClick:()=>console.log("X")
+                }
+            })
+        }
+        //TODO find screening id and redirect to page.For now i use 123 just to work
+        router.push(`/movie/${id}/123`)
+    }
+
     return (
         <motion.div id="selectDate" className="pt-20" layout  transition={{ layout: { duration: 0.7, ease: "easeIn" } }}>
             <motion.div layout className="flex flex-col md:flex-row items-center justify-between gap-10
@@ -106,7 +122,7 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                 )}
                 </AnimatePresence>
 
-                     <Button className="my-button button-glow scale-120 ">Book now</Button>
+                <Button onClick={()=>bookingHandler()} className="my-button button-glow scale-120 ">Book now</Button>
 
 
             </motion.div>
