@@ -146,6 +146,9 @@
 .my-button {
   @apply bg-primer rounded-3xl hover:bg-second hover:text-black transition-all w-[100px] duration-700 cursor-pointer text-shadow-black text-shadow-md hover:text-shadow-none;
 }
+.input-button{
+  @apply flex flex-col items-center justify-center bg-bg/10 h-14 w-14 aspect-square rounded cursor-pointer hover:bg-second/70
+}
 
 .fade-shadow-right::after {
   content: "";
@@ -153,7 +156,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 10px; /* Adjust height as needed */
+  height: 10px;
   pointer-events: none;
   background: linear-gradient(to right, rgba(255, 118, 117, 0.4) 0%, rgba(255, 118, 117, 0.2) 40%, rgba(255, 118, 117, 0) 100%);
   z-index: -1;

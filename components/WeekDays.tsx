@@ -47,7 +47,7 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
             <motion.div layout className="flex flex-col md:flex-row items-center justify-between gap-10
                             relative p-8 bg-second/10 border border-second/20 rounded-md">
                 <div>
-                    <p className="text-lg font-semibold">Select Cinema</p>
+                    <p className="text-lg font-semibold text-center">Select Cinema</p>
                     <motion.div layout className="flex items-center gap-6 text-sm mt-5">
                         <Select onValueChange={setSelectedCinema}>
                             <SelectTrigger className="w-[180px] cursor-pointer">
@@ -70,7 +70,7 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                         <motion.div layout initial={{ opacity: 0 ,y:-50,}}
                                     animate={{ opacity: 1 ,y:0,transition: { duration: 0.7,ease: 'easeIn' } }}
                                     key="box">
-                            <p className="text-lg font-semibold">Choose Date</p>
+                            <p className="text-lg font-semibold text-center">Choose Date</p>
                             <div className="flex items-center gap-6 text-sm mt-5">
                                 <ChevronLeftIcon width={28} />
                                 <span className="grid grid-cols-3 gap-3 md:flex flex-wrap md:max-w-lg">
@@ -78,7 +78,7 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                                     <Button
                                         onClick={() => setSelectedDate(date)}
                                         key={date}
-                                        className={`flex flex-col items-center justify-center bg-bg/10 h-14 !w-14 aspect-square rounded cursor-pointer hover:bg-second/70 ${selectedDate === date ? "bg-second" : ""}`}
+                                        className={`input-button ${selectedDate === date ? "!bg-second" : ""}`}
                                     >
                                         <span>{new Date(date).getDate()}</span>
                                         <span>{new Date(date).toLocaleDateString("en-US", { month: "short" })}</span>
@@ -101,7 +101,7 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                     <motion.div layout initial={{ opacity: 0 ,y:-50,}}
                                 animate={{ opacity: 1 ,y:0,transition: { duration: 0.7,ease:"easeIn" } }}
                                 key="box">
-                        <p className="text-lg font-semibold">Select Screening</p>
+                        <p className="text-lg font-semibold text-centerx">Select Screening</p>
                         <div className="flex items-center gap-6 text-sm mt-5">
                             <Table>
                                 <TableBody className="flex flex-col">

@@ -1,3 +1,7 @@
+
+
+
+
 'use client'
 import React, {useEffect, useState} from 'react'
 import CardLoginForm from "@/components/CardLoginForm";
@@ -44,7 +48,7 @@ const FlipForm = () => {
 
 
     return (
-        <div className="w-screen h-[90vh] md:h-[70vh] flex items-center justify-center relative">
+        <div className="w-screen h-[90vh] md:h-[70vh] flex items-center justify-center relative mb-4">
             <motion.div
 
                 variants={variants[direction]}
