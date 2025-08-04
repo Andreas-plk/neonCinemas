@@ -1,8 +1,10 @@
 "use client"
-import React, {useEffect} from 'react'
+import  {useState} from 'react'
 
+import {toast} from "sonner"
 import { MdEventSeat } from "react-icons/md";
-import {motion} from "motion/react";
+import {AnimatePresence, motion} from "motion/react";
+import SeatSelection from "@/components/SeatSelection";
 const CinemaSeats = ({rows,seatsPerRow,sections,screeningId}:{rows:number,seatsPerRow:number,sections:number,screeningId:number}) => {
     const variants = {
         rest: { },
@@ -12,7 +14,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId}:{rows:number,seatsP
     const seatOverflow=(index:number)=>(
         index<=25?(index):(index+6)
     )
-    const [selectedSeats, setSelectedSeats] = React.useState<string[]>([])
+    const [selectedSeats, setSelectedSeats] = useState<string[]>([])
 
     const getSeat=(row:string,num:number)=>{
        return  row+num.toString();
@@ -21,22 +23,31 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId}:{rows:number,seatsP
 
 
     const addSeat=(seat:string)=>{
+
         setSelectedSeats((prev) => {
             if (prev.includes(seat)) {
                 return prev.filter((s) => s !== seat); // αφαίρεση
             } else {
+                if (prev.length>=9){
+                    toast("You can't select more than 9 seats",{
+                        action:{
+                            label:"X",
+                            onClick:()=>console.log("X")
+                        }
+                    })
+                    return[...prev];
+                }
                 return [...prev, seat]; // προσθήκη
             }
 
         });
      }
 
-    useEffect(()=>{ console.log("Selected seats:", selectedSeats);},[selectedSeats])
 
 
 
     const renderSection = (sectionIndex:number) => {
-        return(<div key={sectionIndex} className="mx-1 md:mx-10">
+        return(<div key={sectionIndex} className="mx-1 md:mx-10 w-fit">
             {Array.from({ length: rows }, (_, rowIndex) => (
             <div key={rowIndex} className="flex justify-center mb-2">
                 {Array.from({ length: seatsPerRow }, (_, seatIndex) => (
@@ -81,9 +92,30 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId}:{rows:number,seatsP
 
 
     return (
-        <div className="m-4">
-            <div className="flex justify-center flex-row flex-wrap gap-8">
-            {Array.from({ length: sections }, (_, sectionIndex) => renderSection(sectionIndex))}
+        <div className="w-full flex flex-col md:flex-row justify-start overflow-hidden">
+            <div className=" w-full md:w-3/4  w-max-6xl px-2 md:px-10">
+                <div
+                    className="flex md:justify-center gap-6 overflow-x-auto md:overflow-visible">
+                    {Array.from({ length: sections }, (_, sectionIndex) => renderSection(sectionIndex))}
+                </div>
+            </div>
+            <div className="flex flex-col mt-4 md:mt-0 justify-center items-center md:justify-start gap-4 w-full md:w-1/4">
+                <h1 className="text-2xl font-semibold uppercase">Tickets</h1>
+                <AnimatePresence>
+                    {selectedSeats.length === 0 ? (
+                        <motion.p
+                            layout
+                            transition={{ layout: { duration: 0.3 }}}
+                            initial={{x:-60,opacity:0}}
+                            animate={{x:0,opacity:0.7}}
+                            exit={{x:-60,opacity:0}}
+                            className="text-sm italic">No selected seats yet.</motion.p>
+                    ) : (
+                        selectedSeats.map((seat: string) => (
+                            <SeatSelection key={seat} seat={seat} />
+                        ))
+                    )}
+                </AnimatePresence>
             </div>
         </div>
     )
