@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from "@/components/navbar";
 import {auth} from "@/auth";
+import {TicketProvider} from "@/context/TicketContext";
 
 const Layout =async ({
                     children,
@@ -11,7 +12,7 @@ const Layout =async ({
     return (
         <main>
             <Navbar session={session}/>
-            {children}
+            <TicketProvider>{children}</TicketProvider>
         </main>
     )
 }

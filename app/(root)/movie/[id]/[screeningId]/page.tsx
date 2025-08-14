@@ -4,7 +4,7 @@ import CinemaSeats from "@/components/CinemaSeats";
 import {useParams} from "next/navigation";
 
 const Page = () => {
-    const{screeningId} = useParams();
+    const{screeningId,id} = useParams();
     return (
         <div className="m-3 md:m-7 p-1">
             <h1 className="uppercase font-semibold text-center text-3xl">select seats</h1>
@@ -14,7 +14,7 @@ const Page = () => {
                 </svg>
                 <span className="text-sm uppercase text-text/70 mt-1">screen</span>
             </div>
-            <CinemaSeats rows={20} seatsPerRow={20} sections={1} screeningId={screeningId} />
+            <CinemaSeats rows={20} seatsPerRow={8} sections={2} screeningId={screeningId} id={id}/>
           </div>
     )
 }
