@@ -4,7 +4,9 @@ import CinemaSeats from "@/components/CinemaSeats";
 import {useParams} from "next/navigation";
 
 const Page = () => {
-    const{screeningId,id} = useParams();
+    const params= useParams();
+    const screeningId= Number(params.screeningId);
+    const id= Number(params.id);
     return (
         <div className="m-3 md:m-7 p-1">
             <h1 className="uppercase font-semibold text-center text-3xl">select seats</h1>

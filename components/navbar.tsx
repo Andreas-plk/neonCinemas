@@ -14,15 +14,13 @@ import {
 import { Button } from "@/components/ui/button";
 import SignOutClient from "@/components/sign-out-client";
 import { Menu, X } from "lucide-react";
-import { motion } from "motion/react";
+import {useSession} from "next-auth/react";
 
-type NavbarProps = {
-    session: { user: { name: string } } | null;
-};
 
-const Navbar = ({ session }: NavbarProps) => {
+
+const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
-
+    const { data: session }=useSession();
     return (
         <nav className="relative w-full rounded-b-xl z-50 fade-shadow-right">
             <div className="mx-auto px-4 md:px-10 py-3 flex items-center justify-between">
@@ -136,7 +134,7 @@ const Navbar = ({ session }: NavbarProps) => {
                             <SignOutClient />
                         </div>
                     ) : (
-                        <Link href="/login">
+                        <Link href="/authorization">
                             <Button className="w-full bg-primer hover:bg-second button-glow">
                                 Login
                             </Button>

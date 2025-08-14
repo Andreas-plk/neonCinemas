@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from "@/components/navbar";
 import {auth} from "@/auth";
 import {TicketProvider} from "@/context/TicketContext";
+import {SessionProvider} from "next-auth/react";
 
 const Layout =async ({
                     children,
@@ -11,8 +12,11 @@ const Layout =async ({
     const session=await auth();
     return (
         <main>
-            <Navbar session={session}/>
-            <TicketProvider>{children}</TicketProvider>
+            <SessionProvider session={session}>
+                <Navbar/>
+                <TicketProvider>{children}</TicketProvider>
+            </SessionProvider>
+
         </main>
     )
 }
