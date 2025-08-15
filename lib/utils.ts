@@ -53,3 +53,8 @@ export const getStripe = () => {
 export const convertToSubcurrency=(amount:number) =>{
     return Math.round(amount*100);
 }
+
+export const indexToString=(rowIndex:number) =>{
+    if (rowIndex>25) rowIndex+=6;
+    return  String.fromCharCode(65 + rowIndex);
+}

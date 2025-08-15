@@ -16,7 +16,7 @@ const Page = () => {
                 </svg>
                 <span className="text-sm uppercase text-text/70 mt-1">screen</span>
             </div>
-            <CinemaSeats rows={20} seatsPerRow={8} sections={2} screeningId={screeningId} id={id}/>
+            <CinemaSeats rows={15} seatsPerRow={8} sections={2} screeningId={screeningId} id={id}/>
           </div>
     )
 }

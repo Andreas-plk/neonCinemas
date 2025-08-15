@@ -26,7 +26,9 @@ export default function RootLayout({
       <body
         className={`${montserratSans.className}  antialiased`}
       >
+
         {children}
+
       <Toaster/>
       </body>
     </html>

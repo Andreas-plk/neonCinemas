@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/tooltip"
 import { motion } from 'motion/react';
 import WeekDays from "@/components/WeekDays";
-import Link from "next/link";
+
 
 type ShowType = {
     movie: typeof dummyShowsData[number];

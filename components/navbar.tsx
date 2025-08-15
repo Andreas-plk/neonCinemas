@@ -77,6 +77,20 @@ const Navbar = () => {
                                     </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
+                            {session?.user ? (
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link
+                                            href="/favorites"
+                                            className="cursor-pointer rounded-4xl w-[100px] text-center hover:bg-second hover:text-black py-2"
+                                        >
+                                            Favorites
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            ) : (
+                                <></>
+                            )}
                         </NavigationMenuList>
                     </NavigationMenu>
                 </div>

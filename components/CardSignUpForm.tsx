@@ -64,7 +64,7 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
     return (
         <div className="relative bg-[linear-gradient(to_bottom,_theme(colors.bg)_53%,_theme(colors.second)_47%)]
         md:bg-[linear-gradient(to_right,_theme(colors.bg)_50%,_theme(colors.second)_50%)]
-        rounded-md w-full max-w-5xl h-auto md:h-[60vh] md:w-[70vw] shadow-md shadow-primer/50 flex flex-col md:flex-row overflow-hidden mb-5">
+        rounded-md w-full max-w-5xl h-auto md:h-[60vh] md:w-[70vw] shadow-md shadow-primer/50 flex flex-col md:flex-row overflow-hidden">
 
 
                 <div className="w-full md:w-1/2 p-6 flex flex-col items-center justify-center">

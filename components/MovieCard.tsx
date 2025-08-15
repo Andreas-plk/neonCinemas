@@ -1,4 +1,3 @@
-import React from 'react'
 import {MinToHours} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
@@ -20,7 +19,7 @@ const MovieCard = ({movie}) => {
 
             </div>
             <div className="flex flex-col-2 w-full justify-between items-center text-sm text-text/80 mb-3">
-                <Button className="w-[100] glow my-button "><Link href={`/movie/${movie._id}`}>Buy tickets</Link></Button>
+                <Button className="button-glow my-button "><Link href={`/movie/${movie._id}`}>Buy tickets</Link></Button>
                 <p className="flex"><FaStar className="size-4.5 text-second"/> {movie.vote_average.toFixed(1)}</p>
             </div>
 
