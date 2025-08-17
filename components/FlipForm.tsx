@@ -48,7 +48,7 @@ const FlipForm = () => {
 
 
     return (
-        <div className="w-screen h-[90vh] md:h-[70vh] flex items-center justify-center relative mb-4">
+        <div className="w-screen h-[90vh] md:h-[70vh] flex items-center justify-center relative mb-10 md:mb-4">
             <motion.div
 
                 variants={variants[direction]}

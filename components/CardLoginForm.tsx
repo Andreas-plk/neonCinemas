@@ -117,12 +117,14 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
                         />
 
                         <div className="flex flex-row justify-between items-center">
-                            <Button className="my-button button-glow" type="submit">Login</Button>
-                            <p className=" font-semibold">OR USE</p>
-                            <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow"><SignInClient/></p>
+                            <Button className="!w-full my-button button-glow" type="submit">Login</Button>
+
                         </div>
                     </form>
                 </Form>
+                <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow">
+                    <SignInClient/>
+                </p>
             </div>
 
             <div className="w-full md:w-1/2  p-6 text-black flex flex-col justify-center items-center text-center">

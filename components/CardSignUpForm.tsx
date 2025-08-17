@@ -62,7 +62,7 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
     }
 
     return (
-        <div className="relative bg-[linear-gradient(to_bottom,_theme(colors.bg)_53%,_theme(colors.second)_47%)]
+        <div className="relative bg-[linear-gradient(to_bottom,_theme(colors.bg)_55%,_theme(colors.second)_45%)]
         md:bg-[linear-gradient(to_right,_theme(colors.bg)_50%,_theme(colors.second)_50%)]
         rounded-md w-full max-w-5xl h-auto md:h-[60vh] md:w-[70vw] shadow-md shadow-primer/50 flex flex-col md:flex-row overflow-hidden">
 
@@ -131,13 +131,17 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
                                     </FormItem>)}
                             />
                             <div className="flex flex-row justify-between items-center">
-                                <Button className="my-button button-glow" type="submit">Sign Up</Button>
-                                <p className=" font-semibold">OR USE</p>
-                                <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow"><SignInClient/></p>
+                                <Button className="!w-full my-button button-glow" type="submit">Sign Up</Button>
+
                             </div>
 
                         </form>
                     </Form>
+
+                    <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow">
+                        <SignInClient/>
+                    </p>
+
                 </div>
 
 
@@ -154,7 +158,7 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
                         <p className="mb-3">
                             You already have an account?
                         </p>
-                        <Button className="cursor-pointer" onClick={onClick}>Login one here</Button>
+                        <Button className="cursor-pointer" onClick={onClick}>Login here</Button>
                     </div>
                 </div>
             </div>
