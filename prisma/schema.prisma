@@ -43,6 +43,74 @@ model Account {
   @@id([provider, providerAccountId])
 }
 
+model Movie {
+  Id     String @id @default(cuid()) // δικό σου internal id
+  tmdbId Int    @map("id") // id από TMDB
+
+  // βασικά TMDB πεδία
+  adult            Boolean
+  backdropPath     String?   @map("backdrop_path")
+  posterPath       String?   @map("poster_path")
+  title            String
+  originalTitle    String    @map("original_title")
+  originalLanguage String    @map("original_language")
+  overview         String?
+  releaseDate      DateTime? @map("release_date")
+  runtime          Int?
+  status           String?
+  tagline          String?
+  popularity       Float?
+  voteAverage      Float?    @map("vote_average")
+  voteCount        Int?      @map("vote_count")
+  video            Boolean
+
+  // custom πεδία
+  playingNow Boolean     @default(false)
+  screenings Screening[]
+  trailer    Trailer?
+  reviews    Review[]
+
+  // σχέσεις
+  genres Genre[] @relation("MovieGenres")
+}
+
+model Genre {
+  id     Int     @id
+  name   String
+  movies Movie[] @relation("MovieGenres")
+}
+
+model Screening {
+  id       String   @id @default(cuid())
+  time     DateTime
+  location String?
+  movieId  String
+
+  movie Movie @relation(fields: [movieId], references: [Id])
+}
+
+model Trailer {
+  id        String    @id @default(cuid())
+  key       String // π.χ. YouTube key
+  site      String // π.χ. "YouTube"
+  type      String? // Trailer / Teaser
+  official  Boolean?
+  published DateTime?
+
+  movieId String @unique
+  movie   Movie  @relation(fields: [movieId], references: [Id])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  author    String
+  content   String
+  createdAt DateTime @default(now())
+
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [Id])
+}
+
 model Session {
   sessionToken String   @unique
   userId       String

@@ -11,8 +11,9 @@ const Layout =async ({
     return (
         <SidebarProvider defaultOpen={false}>
             <AdminSidebar />
-            <main>
-                <SidebarTrigger variant="ghost" className="cursor-pointer"/>
+            <SidebarTrigger variant="ghost" className="cursor-pointer m-2" />
+            <main className="px-6 md:px-12 lg:px-20 py-10 md:py-20 w-full">
+
                 {children}
             </main>
         </SidebarProvider>

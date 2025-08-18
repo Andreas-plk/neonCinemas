@@ -148,7 +148,21 @@
 .input-button{
   @apply flex flex-col items-center justify-center bg-bg/10 h-14 w-14 aspect-square rounded cursor-pointer hover:bg-second/70
 }
+.search {
+    @apply w-full max-w-3xl mx-auto my-2 p-2 rounded-md border bg-second/10;
+}
 
+/*.search div {*/
+/*    @apply relative flex items-center;*/
+/*}*/
+
+/*.search img {*/
+/*    @apply absolute left-2 h-5 w-5;*/
+/*}*/
+
+/*.search input {*/
+/*    @apply w-full bg-transparent py-2 sm:pr-10 pl-10 text-base placeholder-light-200 outline-hidden;*/
+/*}*/
 .fade-shadow-right::after {
   content: "";
   position: absolute;
@@ -162,11 +176,3 @@
 
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}

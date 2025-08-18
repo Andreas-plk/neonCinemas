@@ -336,7 +336,7 @@ export const dummyDateTimeData = {
 //         "isPaid": true,
 //     },
 // ]
-export const genresData = {
+const genres = {
     "genres": [
         {
             "id": 28,
@@ -416,3 +416,4 @@ export const genresData = {
         }
     ]
 }
+export const genresData= Object.fromEntries(genres.genres.map(g => [g.id, g.name]));
