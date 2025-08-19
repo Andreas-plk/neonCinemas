@@ -2,8 +2,11 @@ import MovieCard from "@/components/MovieCard";
 import {prisma} from "@/prisma";
 
 const movies =await prisma.movie.findMany({
-    include:{genres:true,}});
-const Page =async () => {
+    include:{genres:true,
+    trailer:true,}
+    });
+
+const Page = () => {
 
 
 

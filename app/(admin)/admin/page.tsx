@@ -2,19 +2,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {Button} from "@/components/ui/button";
+
+
+const adminPassword ="1234";
+
 const Page = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
 
-    const correctPassword = "1234"; // ο κωδικός σου
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === correctPassword) {
+        if (password === adminPassword) {
             router.push("/admin/dashboard");
         } else {
-            setError("Wrong Password");
+            setError("Wrong Password"+`${adminPassword}`);
         }
     };
     return (

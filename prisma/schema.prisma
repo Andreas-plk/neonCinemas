@@ -91,14 +91,14 @@ model Screening {
 
 model Trailer {
   id        String    @id @default(cuid())
-  key       String // π.χ. YouTube key
-  site      String // π.χ. "YouTube"
-  type      String? // Trailer / Teaser
+  key       String
+  site      String
+  type      String?
   official  Boolean?
   published DateTime?
 
   movieId String @unique
-  movie   Movie  @relation(fields: [movieId], references: [Id])
+  movie   Movie  @relation(fields: [movieId], references: [Id], onDelete: Cascade)
 }
 
 model Review {

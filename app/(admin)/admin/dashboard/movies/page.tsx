@@ -3,6 +3,7 @@ import SearchField from "@/components/SearchField";
 import {useEffect, useState} from "react";
 import {useDebounce} from "react-use";
 import NewMovie from "@/components/NewMovie";
+import {tmdbMovie} from '@/types/types'
 
 const BASE_URL="https://api.themoviedb.org/3/";
 const OPTIONS = {method: "GET",
@@ -17,7 +18,7 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
 
-    useDebounce(()=>setDebouncedSearchTerm(searchTerm),500,[searchTerm])
+    useDebounce(()=>setDebouncedSearchTerm(searchTerm),1000,[searchTerm])
 
     const fetchMovies = async (query='') => {
         setLoading(true)
@@ -62,7 +63,7 @@ const Page = () => {
             {loading?(<p>Loading...</p>)
                 :error ?(<p className="text-red-500">{error}</p>)
             :(<div className="flex flex-wrap justify-center gap-8 my-8">
-                        {movies.map((item:any) => (
+                        {movies.map((item:tmdbMovie) => (
                         <NewMovie movie={item} key={item.id} />
                         ))}
                     </div>)}

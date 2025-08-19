@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-
+import{Button} from "@/components/ui/button";
 
 
 export default function ImportButton({ tmdbId }: {tmdbId: number}) {
@@ -33,13 +33,13 @@ export default function ImportButton({ tmdbId }: {tmdbId: number}) {
 
     return (
         <div>
-            <button
+            <Button
                 onClick={handleImport}
                 disabled={loading}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+                className="my-button button-glow !w-full"
             >
                 {loading ? "Importing..." : "Import Movie"}
-            </button>
+            </Button>
             {success && <p className="text-green-500 mt-2">Movie imported!</p>}
             {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>

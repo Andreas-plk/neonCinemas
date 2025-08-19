@@ -2,10 +2,10 @@
 import React, {useState} from 'react'
 import {Button} from "@/components/ui/button";
 import {FaPlayCircle} from "react-icons/fa";
-import {dummyTrailers} from "@/assets/assets";
+// import {dummyTrailers} from "@/assets/assets";
 import {getYouTubeEmbedUrl} from "@/lib/utils";
-const VideoPlayerButton = () => {
-    const trailerUrl=getYouTubeEmbedUrl(dummyTrailers[0].videoUrl)|| "";
+const VideoPlayerButton = ({url}:{url:string}) => {
+    const trailerUrl=getYouTubeEmbedUrl(url)|| "";
 
     const [isOpen, setIsOpen] = useState(false);
 
