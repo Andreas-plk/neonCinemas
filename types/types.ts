@@ -77,7 +77,7 @@ export type tmdbMovie = {
 };
 
 // Genre
- type Genre = {
+ export type Genre = {
     id: string;
     name: string;
 

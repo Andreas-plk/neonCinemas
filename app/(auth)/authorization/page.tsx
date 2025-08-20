@@ -13,7 +13,7 @@ const LoginForm = async () => {
   return  (
             <div className="mt-4 md:mt-10">
                <FlipForm/>
-                <Link className="absolute right-1 bottom-1 text-xs text-text/90" href={"/admin"}>Admin</Link>
+                <Link className="relative md:absolute right-1 bottom-1 text-xs text-text/90" href={"/admin"}>Admin</Link>
             </div>
     )
 }

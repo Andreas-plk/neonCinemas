@@ -48,7 +48,7 @@ const Page =   () => {
                 <div className="relative flex flex-col gap-3">
 
                     <h1 className="text-4xl font-semibold max-w-96 text-balance uppercase">{movie.title}</h1>
-                    <p className="text-text/70">{movie.originalLanguage}</p>
+                    <p className="text-text/70 uppercase">{movie.originalLanguage}</p>
                     <div className="flex items-center gap-2">
                         User Rating :<FaStar className="size-4.5 text-second"/> {movie.voteAverage?.toFixed(1)}
                     </div>

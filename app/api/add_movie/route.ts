@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {prisma} from "@/prisma";
+import {Genre} from "@/types/types";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 const OPTIONS = {
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
         const videoData = await videoRes.json();
 
         const trailerData = videoData.results.find(
-            (v: any) => v.type === "Trailer" && v.official
+            (v: any) => v.type === "Trailer" && v.site==="YouTube"
         );
         console.log(trailerData);
 
@@ -47,8 +48,9 @@ export async function POST(req: NextRequest) {
                 voteAverage: movieData.vote_average,
                 voteCount: movieData.vote_count,
                 video: movieData.video,
+                playingNow:true,
                 genres: {
-                    connectOrCreate: movieData.genres.map((g: any) => ({
+                    connectOrCreate: movieData.genres.map((g: Genre) => ({
                         where: { id: g.id },         // ψάχνει αν υπάρχει
                         create: { id: g.id, name: g.name } // αν δεν υπάρχει, δημιουργεί
                     }))
