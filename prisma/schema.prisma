@@ -18,8 +18,9 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Booking   Booking[]
 }
 
 model Account {
@@ -44,7 +45,7 @@ model Account {
 }
 
 model Movie {
-  Id     String @id @default(cuid()) // δικό σου internal id
+  Id     String @id @default(cuid()) // δικο μου id
   tmdbId Int    @map("id") // id από TMDB
 
   // βασικά TMDB πεδία
@@ -64,14 +65,12 @@ model Movie {
   voteCount        Int?      @map("vote_count")
   video            Boolean
 
-  // custom πεδία
+  // δικα μου πεδία
   playingNow Boolean     @default(false)
   screenings Screening[]
   trailer    Trailer?
   reviews    Review[]
-
-  // σχέσεις
-  genres Genre[] @relation("MovieGenres")
+  genres     Genre[]     @relation("MovieGenres")
 }
 
 model Genre {
@@ -81,12 +80,44 @@ model Genre {
 }
 
 model Screening {
-  id       String   @id @default(cuid())
+  id       String    @id @default(cuid())
   time     DateTime
-  location String?
   movieId  String
+  bookings Booking[]
+  cinemaId String
+  cinema   Cinema    @relation(fields: [cinemaId], references: [id])
+  movie    Movie     @relation(fields: [movieId], references: [Id])
+  Room     Room      @relation(fields: [roomId], references: [id])
+  roomId   String
+}
 
-  movie Movie @relation(fields: [movieId], references: [Id])
+model Booking {
+  id            String    @id @default(cuid())
+  screeningId   String
+  screening     Screening @relation(fields: [screeningId], references: [id])
+  userId        String?
+  user          User?     @relation(fields: [userId], references: [id])
+  selectedSeats String[]
+  createdAt     DateTime  @default(now())
+}
+
+model Cinema {
+  id         String      @id @default(cuid())
+  name       String
+  locatiion  String
+  rooms      Room[]
+  screenings Screening[]
+}
+
+model Room {
+  id          String      @id @default(cuid())
+  name        String
+  rows        Int
+  seatsPerRow Int
+  sections    Int
+  cinemaId    String
+  cinema      Cinema      @relation(fields: [cinemaId], references: [id])
+  screenings  Screening[]
 }
 
 model Trailer {
@@ -143,4 +174,10 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  output   = "../ERD.svg"
+  theme    = "forest"
 }

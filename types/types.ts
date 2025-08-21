@@ -18,10 +18,9 @@ export type Movie = {
     voteCount: number | null;
     video: boolean;
 
-    // custom πεδία
     playingNow: boolean;
 
-    // σχέσεις (εδώ βάζεις ξεχωριστά types)
+
     // screenings: Screening[];
      trailer: {key:string} | null;
     // reviews: Review[];
@@ -30,7 +29,7 @@ export type Movie = {
 
 
 export type tmdbMovie = {
-    id: number;                 // TMDB id
+    id: number;
 
     adult: boolean;
     backdrop_path: string | null;

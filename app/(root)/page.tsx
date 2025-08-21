@@ -2,9 +2,10 @@ import MovieCard from "@/components/MovieCard";
 import {prisma} from "@/prisma";
 
 const movies =await prisma.movie.findMany({
+
     where:{playingNow:true},
     include:{genres:true,
-    trailer:true,}
+    trailer:true,},
     });
 
 const Page = () => {
