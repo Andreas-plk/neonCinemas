@@ -1,7 +1,8 @@
 "use client";
 import {createContext, Dispatch, SetStateAction, useContext, useState} from "react";
+import {Ticket} from "@/types/types"
 
-type Ticket = { seat: string; type: string };
+
 
 interface TicketContextType  {
     tickets: Ticket[];
@@ -12,6 +13,7 @@ const TicketContext = createContext<TicketContextType | undefined>(undefined);
 
     export function TicketProvider({ children }: { children: React.ReactNode }) {
         const [tickets, setTickets] = useState<Ticket[]>([]);
+
         return (
             <TicketContext.Provider value={{ tickets, setTickets }}>
                 {children}

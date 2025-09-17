@@ -1,3 +1,5 @@
+import {SeatType} from "@prisma/client";
+
 export type Movie = {
     Id: string;                     // cuid()
     tmdbId: number;                 // TMDB id
@@ -81,3 +83,4 @@ export type tmdbMovie = {
     name: string;
 
 };
+export type Ticket = { seat: string; type: SeatType; price?: number };

@@ -18,7 +18,7 @@ const Page = () => {
         if (password === adminPassword) {
             router.push("/admin/dashboard");
         } else {
-            setError("Wrong Password"+`${adminPassword}`);
+            setError("Wrong Password");
         }
     };
     return (

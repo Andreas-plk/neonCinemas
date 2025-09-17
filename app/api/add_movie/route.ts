@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import {prisma} from "@/prisma";
+import prisma from "@/prisma";
 import {Genre} from "@/types/types";
 
 const BASE_URL = "https://api.themoviedb.org/3";

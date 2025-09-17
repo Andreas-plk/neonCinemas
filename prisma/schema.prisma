@@ -69,7 +69,6 @@ model Movie {
   playingNow Boolean     @default(false)
   screenings Screening[]
   trailer    Trailer?
-  reviews    Review[]
   genres     Genre[]     @relation("MovieGenres")
 }
 
@@ -84,27 +83,50 @@ model Screening {
   time     DateTime
   movieId  String
   bookings Booking[]
+  isActive Boolean   @default(true)
   cinemaId String
   cinema   Cinema    @relation(fields: [cinemaId], references: [id])
   movie    Movie     @relation(fields: [movieId], references: [Id])
-  Room     Room      @relation(fields: [roomId], references: [id])
+  room     Room      @relation(fields: [roomId], references: [id])
   roomId   String
 }
 
+enum SeatType {
+  NORMAL
+  STUDENT
+  KIDS
+  ELDER
+}
+
+model SelectedSeat {
+  id        String   @id @default(cuid())
+  seat      String
+  type      SeatType
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+}
+
+model Price {
+  id       String   @id @default(cuid())
+  seatType SeatType @unique
+  value    Decimal
+}
+
 model Booking {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
+  totalPrice    Decimal
   screeningId   String
-  screening     Screening @relation(fields: [screeningId], references: [id])
+  screening     Screening      @relation(fields: [screeningId], references: [id])
   userId        String?
-  user          User?     @relation(fields: [userId], references: [id])
-  selectedSeats String[]
-  createdAt     DateTime  @default(now())
+  user          User?          @relation(fields: [userId], references: [id])
+  selectedSeats SelectedSeat[]
+  createdAt     DateTime       @default(now())
 }
 
 model Cinema {
   id         String      @id @default(cuid())
   name       String
-  locatiion  String
+  location   String
   rooms      Room[]
   screenings Screening[]
 }
@@ -130,16 +152,6 @@ model Trailer {
 
   movieId String @unique
   movie   Movie  @relation(fields: [movieId], references: [Id], onDelete: Cascade)
-}
-
-model Review {
-  id        String   @id @default(cuid())
-  author    String
-  content   String
-  createdAt DateTime @default(now())
-
-  movieId String
-  movie   Movie  @relation(fields: [movieId], references: [Id])
 }
 
 model Session {

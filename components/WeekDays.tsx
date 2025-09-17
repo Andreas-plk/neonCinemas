@@ -1,5 +1,5 @@
 'use client'
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import {Button} from "@/components/ui/button";
 import {ChevronLeftIcon ,ChevronRightIcon} from 'lucide-react';
 
@@ -22,10 +22,25 @@ import {AnimatePresence, motion} from "motion/react";
 import {toast} from "sonner";
 import { useRouter } from 'next/navigation'
 
+
+
+
 const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
-    const dummyCinemas:string[]=["Athens","Thessaloniki","Volos"];
-    const dummyTimes=[["16:00","Room 2"],["18:00","Room 1"],["21:00","Room 2"]];
-    const [selectedCinema, setSelectedCinema] = useState("");
+
+    // const dummyCinemas:string[]=["Athens","Thessaloniki","Volos"];
+    // const dummyTimes=[["16:00","Room 2"],["18:00","Room 1"],["21:00","Room 2"]];
+    const [cinemas, setCinemas] = useState<{
+        id: string
+        name: string
+        location: string
+        rooms:[]
+    }[]>()
+    const [selectedCinema, setSelectedCinema] = useState<{
+        id: string
+        name: string
+        location: string
+        rooms:[]
+    }>();
     const [selectedDate, setSelectedDate] = useState("")
     const [selectedScreening, setSelectedScreening] = useState<string[] | null>(null)
     const router = useRouter();
@@ -42,6 +57,15 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
         router.push(`/movie/${id}/123`)
     }
 
+
+    useEffect(() => {
+        fetch('/api/get_cinemas')
+        .then(res => res.json())
+            .then(setCinemas)
+
+
+
+    }, []);
     return (
         <motion.div id="selectDate" className="pt-20" layout  transition={{ layout: { duration: 0.7, ease: "easeIn" } }}>
             <motion.div layout className="flex flex-col md:flex-row items-center justify-between gap-10
@@ -56,8 +80,8 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                             <SelectContent>
                                 <SelectGroup className="text-text">
                                     <SelectLabel>Cinemas</SelectLabel>
-                                    {dummyCinemas.map((cinema,index) => (
-                                        <SelectItem className="cursor-pointer" value={cinema} key={index}>{cinema}</SelectItem>
+                                    {cinemas && cinemas.map((cinema,index) => (
+                                        <SelectItem className="cursor-pointer" value={cinema} key={index}>{cinema.name}</SelectItem>
                                     ))}
                                 </SelectGroup>
                             </SelectContent>
@@ -105,12 +129,12 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                         <div className="flex items-center gap-6 text-sm mt-5">
                             <Table>
                                 <TableBody className="flex flex-col">
-                                    {dummyTimes.map((dummy, index) => (
+                                    {selectedCinema && selectedCinema.rooms.map((dummy, index) => (
 
-                                            <TableRow onClick={() => setSelectedScreening(dummy)}
-                                                      className={`cursor-pointer rounded-md m-1 bg-bg/10 hover:bg-second/70 ${selectedScreening&&(selectedScreening[0] === dummy[0] && selectedScreening[1]===dummy[1]) ? "bg-second " : ""}`}
+                                            <TableRow onClick={() => setSelectedScreening(dummy.name)}
+                                                      className={`cursor-pointer rounded-md m-1 bg-bg/10 hover:bg-second/70 ${selectedScreening&&(selectedScreening === dummy.name ) ? "bg-second " : ""}`}
                                                       key={index}>
-                                                <TableCell>{dummy[0]}</TableCell>
+                                                <TableCell>{dummy.name}</TableCell>
                                                 <TableCell>{dummy[1]}</TableCell>
                                             </TableRow>
 

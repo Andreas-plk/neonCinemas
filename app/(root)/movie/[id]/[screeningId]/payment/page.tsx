@@ -1,17 +1,28 @@
 'use client';
-import { useTickets } from "@/context/TicketContext";
+import {useTickets} from "@/context/TicketContext";
 import {redirect} from "next/navigation";
-import {getStripe,convertToSubcurrency} from '@/lib/utils'
+import {convertToSubcurrency, formatPrice, getStripe} from '@/lib/utils'
 import {Elements} from '@stripe/react-stripe-js';
 import CheckoutPage from "@/components/CheckoutPage";
+import {Ticket} from "@/types/types";
+import {useEffect, useState} from "react";
 
 
 const stripe = getStripe();
-
-const Page =  () => {
+const Page = () => {
 
     const { tickets } = useTickets();
+    const [total, setTotal] = useState(0)
+    const getFullPrice = (tickets:Ticket[]) => {
+        setTotal(tickets.reduce((sum, ticket) =>sum + ticket.price, 0))
+    };
     if (tickets.length===0)redirect('/') ;
+
+    useEffect(() => {
+        getFullPrice(tickets)
+    }, [tickets])
+
+
     return (
         <div className="flex flex-col justify-center md:flex-row m-4 md:m-10 gap-8">
             {/* Ticket list */}
@@ -26,7 +37,7 @@ const Page =  () => {
                             <p className="text-sm ">
                                 Selected Seat: <span className="font-semibold text-shadow-black">{t.seat}</span>
                                 <br />
-                                Price: <span className="text-second font-semibold">9.00€</span>
+                                Price: <span className="text-second font-semibold">{formatPrice(t.price)}</span>
                             </p>
                             <p className="text-sm ">
                                 Type: <span className="font-medium">{t.type}</span>
@@ -77,7 +88,7 @@ const Page =  () => {
                             },
                         }}
                     >
-                        <CheckoutPage amount={50} />
+                        <CheckoutPage amount={total} />
                     </Elements>
                 </div>
             </div>

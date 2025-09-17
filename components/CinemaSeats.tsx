@@ -9,7 +9,10 @@ import {Button} from "@/components/ui/button";
 import { useTickets } from "@/context/TicketContext";
 import {useRouter} from "next/navigation";
 import { indexToString } from "@/lib/utils";
-const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,seatsPerRow:number,sections:number,screeningId:number,id:number}) => {
+import {Ticket} from "@/types/types";
+import {getPrice} from "@/app/actions";
+
+const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,seatsPerRow:number,sections:number,screeningId:number,id:string}) => {
     const variants = {
         rest: { },
         hover: { },
@@ -17,6 +20,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
     const router = useRouter();
     const [selectedSeats, setSelectedSeats] = useState<string[]>([])
     const { tickets, setTickets } = useTickets();
+    const [selectedTickets, setSelectedTickets] = useState<Ticket[]>([])
     const containerRef = useRef<HTMLDivElement>(null);
     const [centered, setCentered] = useState(true);
 
@@ -63,7 +67,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
      }
 
     const updateTicketType = (seat: string, type: string) => {
-        setTickets(prev => {
+        setSelectedTickets(prev => {
             const exists = prev.find(t => t.seat === seat);
             if (exists) {
                 return prev.map(t => t.seat === seat ? { ...t, type } : t);
@@ -72,9 +76,19 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
         });
     };
 
-    const handleNext = () => {
-        router.push(`/movie/${id}/${screeningId}/payment`);
+    const handleNext = async () => {
+        const updatedTickets = await Promise.all(
+            selectedTickets.map(async (ticket) => {
+                const price = await getPrice(ticket.type);
+                return {
+                    ...ticket,
+                    price: price,
+                };
+            })
+        );
+        setTickets(updatedTickets);
 
+        router.push(`/movie/${id}/${screeningId}/payment`);
     };
 
     const renderSection = (sectionIndex:number) => {
@@ -146,7 +160,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
                     <h1 className="text-2xl font-semibold uppercase mr-6">Tickets</h1>
                     <Button
                     className="my-button button-glow"
-                    disabled={tickets.length === 0 || tickets.length !== selectedSeats.length}
+                    disabled={selectedTickets.length === 0 || selectedTickets.length !== selectedSeats.length}
                     onClick={handleNext}>
                         PAY
                     </Button>

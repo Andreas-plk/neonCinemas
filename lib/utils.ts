@@ -36,3 +36,10 @@ export const indexToString=(rowIndex:number) =>{
     if (rowIndex>25) rowIndex+=6;
     return  String.fromCharCode(65 + rowIndex);
 }
+
+export const formatPrice=(amount:any) =>{
+    return new Intl.NumberFormat("el-GR", {
+        style: "currency",
+        currency: "EUR"
+    }).format(Number(amount));
+}

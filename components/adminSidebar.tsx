@@ -20,7 +20,7 @@ const AdminSidebar = () => {
         },
         {
             title: "Tickets",
-            url: "#",
+            url: "/admin/dashboard/tickets/",
             icon: Tickets,
         },
         {

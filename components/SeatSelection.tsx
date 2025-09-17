@@ -10,9 +10,10 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { motion } from "motion/react"
+import {SeatType} from "@prisma/client";
 
 const SeatSelection = ({seat, onTicketChange}:{seat:string, onTicketChange: (type: string) => void }) => {
-    const ticketTypes = ["Normal","Student (50%)","Kids under 10 (50%)","Elders over 65 (25%)"]
+    const ticketTypes = Object.values(SeatType)
     return (
         <motion.div
             layout

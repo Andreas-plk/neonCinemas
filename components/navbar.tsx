@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -15,12 +15,23 @@ import { Button } from "@/components/ui/button";
 import SignOutClient from "@/components/sign-out-client";
 import { Menu, X } from "lucide-react";
 import {useSession} from "next-auth/react";
+import {Cinema} from "@prisma/client";
 
 
 
-const Navbar = () => {
+const Navbar =  () => {
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [cinemas, setCinemas] = useState([])
     const { data: session }=useSession();
+    useEffect(() => {
+        try {
+            fetch("/api/get_cinemas").
+            then((res) => res.json()).then((data) => setCinemas(data));
+        }catch (err){
+            console.log(err);
+        }
+
+    },[])
     return (
         <nav className="relative w-full rounded-b-xl z-50 fade-shadow-right">
             <div className="mx-auto px-4 md:px-10 py-3 flex items-center justify-between">
@@ -43,26 +54,19 @@ const Navbar = () => {
                                 </NavigationMenuTrigger>
                                 <NavigationMenuContent className="bg-bg text-text">
                                     <ul className="grid gap-2 p-4 w-48">
-                                        <li>
-                                            <NavigationMenuLink asChild>
-                                                <Link
-                                                    href="#"
-                                                    className="block px-3 py-2 rounded-md hover:bg-second text-sm"
-                                                >
-                                                    Athens
-                                                </Link>
-                                            </NavigationMenuLink>
-                                        </li>
-                                        <li>
-                                            <NavigationMenuLink asChild>
-                                                <Link
-                                                    href="#"
-                                                    className="block px-3 py-2 rounded-md hover:bg-second text-sm"
-                                                >
-                                                    Thessaloniki
-                                                </Link>
-                                            </NavigationMenuLink>
-                                        </li>
+                                        {cinemas.map((cinema:Cinema,idx) => (
+                                            <li key={idx}>
+                                                <NavigationMenuLink asChild>
+                                                    <Link
+                                                        href="#"
+                                                        className="block px-3 py-2 rounded-md hover:bg-second text-sm"
+                                                    >
+                                                        {cinema.name}
+                                                    </Link>
+                                                </NavigationMenuLink>
+                                            </li>
+                                        ))}
+
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
