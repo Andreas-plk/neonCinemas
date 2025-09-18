@@ -8,23 +8,31 @@ import {
 import {convertToSubcurrency} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import {BeatLoader} from "react-spinners";
+import {useParams} from "next/navigation";
+import {Ticket} from "@/types/types";
 
 
-const CheckoutPage = ({amount}:{amount:number}) => {
+const CheckoutPage = ({amount,tickets}:{amount:number,tickets:Ticket[]}) => {
     const stripe = useStripe();
     const elements = useElements();
     const [error, setError] = useState<string>();
     const [clientSecret, setClientSecret] = useState("");
     const[loading, setLoading] = useState(false);
+    const {screeningId}=useParams();
+
+    console.log(tickets)
 
     useEffect(() => {
+        if (!tickets || tickets.length === 0 || amount === 0) return;
         fetch("/api/checkout_sessions",{
             method: "POST",
             headers: {"Content-type": "application/json"},
-            body:JSON.stringify({amount:convertToSubcurrency(amount)})
+            body:JSON.stringify({amount:convertToSubcurrency(amount),
+            screeningId,
+            tickets})
         }).then((res)=>res.json())
             .then((data)=>setClientSecret(data.clientSecret));
-    }, [amount]);
+    }, [amount,screeningId,tickets]);
 
 
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +42,7 @@ const CheckoutPage = ({amount}:{amount:number}) => {
 
 
         const {error:submitError}=await elements.submit();
+
         if (submitError){
             setError(submitError.message);
             setLoading(false);
@@ -44,7 +53,7 @@ const CheckoutPage = ({amount}:{amount:number}) => {
             elements,
             clientSecret,
             confirmParams:{
-                return_url:`http://localhost:3000/payed`,
+                return_url:`http://localhost:3000/booking/5`,
             }
         })
 

@@ -11,8 +11,9 @@ import {useRouter} from "next/navigation";
 import { indexToString } from "@/lib/utils";
 import {Ticket} from "@/types/types";
 import {getPrice} from "@/app/actions";
+import {SeatType} from "@prisma/client";
 
-const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,seatsPerRow:number,sections:number,screeningId:number,id:string}) => {
+const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,seatsPerRow:number,sections:number,screeningId:string,id:string}) => {
     const variants = {
         rest: { },
         hover: { },
@@ -48,7 +49,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
 
         setSelectedSeats((prev) => {
             if (prev.includes(seat)) {
-                setTickets(t=> t.filter(ticket => ticket.seat !== seat));
+                setSelectedTickets(t=> t.filter(ticket => ticket.seat !== seat));
                 return prev.filter((s) => s !== seat);
             } else {
                 if (prev.length>=9){
@@ -60,13 +61,13 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
                     })
                     return[...prev];
                 }
-                return [...prev, seat]; // προσθήκη
+                return [...prev, seat];
             }
 
         });
      }
 
-    const updateTicketType = (seat: string, type: string) => {
+    const updateTicketType = (seat: string, type: SeatType) => {
         setSelectedTickets(prev => {
             const exists = prev.find(t => t.seat === seat);
             if (exists) {
@@ -177,7 +178,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
                             className="text-sm italic">No selected seats yet.</motion.p>
                     ) : (
                         selectedSeats.map((seat: string) => (
-                            <SeatSelection key={seat} seat={seat}  onTicketChange={(type) => updateTicketType(seat, type)}/>
+                            <SeatSelection key={seat} seat={seat}  onTicketChange={(type:SeatType) => updateTicketType(seat, type)}/>
                         ))
                     )}
                 </AnimatePresence>

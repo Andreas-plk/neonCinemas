@@ -1,16 +1,20 @@
 import {NextRequest, NextResponse} from "next/server";
-import Stripe from "stripe";
-
-const stripe =new Stripe(process.env.STRIPE_SECRET_KEY!);
+import {Ticket} from "@/types/types";
+import {stripe} from "@/lib/stripe";
 
 export async function POST(req: NextRequest) {
 
     try {
-        const {amount} = await req.json();
+        const { amount, screeningId, tickets } = await req.json();
         const paymentIntent = await stripe.paymentIntents.create({
             amount: amount,
             currency: "eur",
-            automatic_payment_methods:{enabled:true},
+            metadata: {
+                screeningId,
+                tickets: JSON.stringify(
+                    tickets.map((ticket:Ticket) => ({ seat: ticket.seat, type: ticket.type }))
+                ),
+            },
         });
         return NextResponse.json({clientSecret: paymentIntent.client_secret})
     }catch (error) {

@@ -1,11 +1,10 @@
 'use client'
-import React from 'react'
 import CinemaSeats from "@/components/CinemaSeats";
 import {useParams} from "next/navigation";
 
 const Page = () => {
     const params= useParams();
-    const screeningId= Number(params.screeningId);
+    const screeningId= String(params.screeningId);
     const id= String(params.id);
     return (
         <div className="m-3 md:m-7 p-1">

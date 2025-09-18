@@ -1,6 +1,6 @@
 'use client';
 import {useTickets} from "@/context/TicketContext";
-import {redirect} from "next/navigation";
+import {redirect, useParams} from "next/navigation";
 import {convertToSubcurrency, formatPrice, getStripe} from '@/lib/utils'
 import {Elements} from '@stripe/react-stripe-js';
 import CheckoutPage from "@/components/CheckoutPage";
@@ -10,11 +10,15 @@ import {useEffect, useState} from "react";
 
 const stripe = getStripe();
 const Page = () => {
-
     const { tickets } = useTickets();
     const [total, setTotal] = useState(0)
     const getFullPrice = (tickets:Ticket[]) => {
-        setTotal(tickets.reduce((sum, ticket) =>sum + ticket.price, 0))
+        setTotal(tickets.reduce((sum, ticket) =>{
+            if (typeof ticket.price === 'number') {
+                return sum + ticket.price;
+            }
+            return sum;
+        }, 0))
     };
     if (tickets.length===0)redirect('/') ;
 
@@ -88,7 +92,7 @@ const Page = () => {
                             },
                         }}
                     >
-                        <CheckoutPage amount={total} />
+                        <CheckoutPage amount={total} tickets={tickets} />
                     </Elements>
                 </div>
             </div>

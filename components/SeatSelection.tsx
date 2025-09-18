@@ -12,7 +12,7 @@ import {
 import { motion } from "motion/react"
 import {SeatType} from "@prisma/client";
 
-const SeatSelection = ({seat, onTicketChange}:{seat:string, onTicketChange: (type: string) => void }) => {
+const SeatSelection = ({seat, onTicketChange}:{seat:string, onTicketChange: (type: SeatType) => void }) => {
     const ticketTypes = Object.values(SeatType)
     return (
         <motion.div

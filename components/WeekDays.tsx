@@ -54,7 +54,7 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
             })
         }
         //TODO find screening id and redirect to page.For now i use 123 just to work
-        router.push(`/movie/${id}/123`)
+        router.push(`/movie/${id}/cmfpbpwj9000077e8n1uwyz8u`)
     }
 
 
