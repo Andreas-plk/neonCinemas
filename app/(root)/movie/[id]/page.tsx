@@ -1,6 +1,5 @@
 "use client"
 import React, {useEffect, useState} from 'react'
-import {dummyDateTimeData } from "@/assets/assets";
 import {useParams} from "next/navigation";
 import { FaStar,FaClock,  } from "react-icons/fa";
 import { MdFavorite,MdFavoriteBorder } from "react-icons/md";
@@ -110,7 +109,7 @@ const Page =   () => {
                 <img src={movie.posterPath ?`https://image.tmdb.org/t/p/original/${movie.posterPath}` :"/posterNotFound.png" } alt="Movie cover"  className="max-md:mx-auto rounded-xl h-104 max-w-70 object-cover shadow-xl/50" />
             </div>
             <div id="tickets">
-                    <WeekDays dateTime={dummyDateTimeData} id={id}/>
+                    <WeekDays/>
             </div>
 
 

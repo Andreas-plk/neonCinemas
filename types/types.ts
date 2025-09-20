@@ -1,4 +1,6 @@
 import {SeatType} from "@prisma/client";
+import {Screening,Room} from "@prisma/client";
+
 
 export type Movie = {
     Id: string;                     // cuid()
@@ -51,14 +53,7 @@ export type tmdbMovie = {
     genre_ids : number[]|null;
 
 };
- type Screening = {
-    id: string;
-    movieId: string;
-    cinemaHallId: string;
-    startTime: Date;
-    endTime: Date;
 
-};
 
 // Trailer
  type Trailer = {
@@ -67,15 +62,7 @@ export type tmdbMovie = {
 };
 
 // Review
- type Review = {
-    id: string;
-    movieId: string;
-    userId: string;
-    rating: number;
-    comment: string | null;
-    createdAt: Date;
 
-};
 
 // Genre
  export type Genre = {
@@ -84,3 +71,17 @@ export type tmdbMovie = {
 
 };
 export type Ticket = { seat: string; type: SeatType; price?: number };
+
+export type  Cinema = {
+    id: string;
+    name: string;
+    location: string;
+    rooms: Room[];
+}
+
+
+
+export type ScreeningWithRelations = Screening & {
+    cinema: Cinema;
+    room: Room;
+};

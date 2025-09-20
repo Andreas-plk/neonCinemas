@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import CinemaFormBlock from "@/components/CinemaFormBlock";
+import MultiCinemaForm from "@/components/MultiCinemaForm";
 const DialogButton = ({tmdbId}:{tmdbId:number}) => {
     return (
         <Dialog>
@@ -12,9 +12,7 @@ const DialogButton = ({tmdbId}:{tmdbId:number}) => {
                 <DialogHeader>
                     <DialogTitle>Δημιουργία Προβολών</DialogTitle>
                 </DialogHeader>
-
-                {/* Εδώ περνάμε το tmdbId για να ξέρει ποια ταινία αφορά */}
-                <CinemaFormBlock movieId={tmdbId} />
+                <MultiCinemaForm tmdbId={tmdbId}/>
             </DialogContent>
         </Dialog>
     );

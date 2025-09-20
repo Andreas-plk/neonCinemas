@@ -1,11 +1,13 @@
-'use client'
 import CinemaSeats from "@/components/CinemaSeats";
-import {useParams} from "next/navigation";
+import {getScreening} from "@/app/actions";
 
-const Page = () => {
-    const params= useParams();
-    const screeningId= String(params.screeningId);
-    const id= String(params.id);
+
+const Page = async ({id,screeningId}:{id:string,screeningId:string}) => {
+    const screening = await getScreening(screeningId);
+    console.log(screening);
+    if (!screening) {
+        return ;
+    }
     return (
         <div className="m-3 md:m-7 p-1">
             <h1 className="uppercase font-semibold text-center text-3xl">select seats</h1>
@@ -15,7 +17,7 @@ const Page = () => {
                 </svg>
                 <span className="text-sm uppercase text-text/70 mt-1">screen</span>
             </div>
-            <CinemaSeats rows={15} seatsPerRow={8} sections={2} screeningId={screeningId} id={id}/>
+            <CinemaSeats rows={screening.room.rows} seatsPerRow={screening.room.seatsPerRow} sections={screening.room.sections} screeningId={screeningId} id={id}/>
           </div>
     )
 }

@@ -81,3 +81,10 @@ export async function getPrice(type:string){
     return price.value.toNumber();
 }
 
+export async function getScreening(id:string){
+    return await prisma.screening.findFirst({
+        where:{id},
+        include:{room:true},
+    })
+}
+

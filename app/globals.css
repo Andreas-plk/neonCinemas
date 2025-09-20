@@ -65,8 +65,8 @@
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --border: var(--color-second);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --input: var(--color-second);
+  --ring: var(--color-second);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -176,3 +176,20 @@
 
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg); /* σκούρο background */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-second); /* κόκκινο thumb */
+    border-radius: 4px;
+    border: 2px solid var(--color-bg); /* για να ξεχωρίζει */
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #E55D5C; /* λίγο πιο φωτεινό όταν κάνεις hover */
+}

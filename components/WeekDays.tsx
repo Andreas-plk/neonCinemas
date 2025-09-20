@@ -20,30 +20,28 @@ import {
 } from "@/components/ui/table"
 import {AnimatePresence, motion} from "motion/react";
 import {toast} from "sonner";
-import { useRouter } from 'next/navigation'
+import {useParams, useRouter} from 'next/navigation'
+import {ScreeningWithRelations} from "@/types/types"
 
 
-
-
-const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
-
-    // const dummyCinemas:string[]=["Athens","Thessaloniki","Volos"];
-    // const dummyTimes=[["16:00","Room 2"],["18:00","Room 1"],["21:00","Room 2"]];
+const WeekDays = () => {
+    const {id}  = useParams()
     const [cinemas, setCinemas] = useState<{
         id: string
         name: string
         location: string
         rooms:[]
     }[]>()
-    const [selectedCinema, setSelectedCinema] = useState<{
-        id: string
-        name: string
-        location: string
-        rooms:[]
-    }>();
+
+    const [screenings, setScreenings] = useState<ScreeningWithRelations[]>([])
+
+    const [selectedCinema, setSelectedCinema] = useState<string|null>(null);
     const [selectedDate, setSelectedDate] = useState("")
-    const [selectedScreening, setSelectedScreening] = useState<string[] | null>(null)
+    const [selectedScreening, setSelectedScreening] = useState<string | null>(null)
+    const [dateStartIdx, setDateStartIdx] = useState(0);
     const router = useRouter();
+
+
     const bookingHandler=()=>{
         if(!selectedCinema || !selectedDate || !selectedScreening){
             return toast("Please select all the options",{
@@ -53,19 +51,34 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                 }
             })
         }
-        //TODO find screening id and redirect to page.For now i use 123 just to work
-        router.push(`/movie/${id}/cmfpbpwj9000077e8n1uwyz8u`)
+        router.push(`/movie/${id}/${selectedScreening}`)
     }
-
+    const uniqueDates = Array.from(
+        new Set(
+            screenings
+                .filter(s => s.cinemaId === selectedCinema)
+                .map(s => new Date(s.time).toDateString())
+        )
+    ).sort(
+        (a, b) => new Date(a).getTime() - new Date(b).getTime()
+    );
 
     useEffect(() => {
         fetch('/api/get_cinemas')
         .then(res => res.json())
             .then(setCinemas)
-
-
-
     }, []);
+
+    useEffect(() => {
+        fetch(`/api/get_screenings?id=${id}`)
+            .then(res => res.json())
+            .then(setScreenings)
+    }, [id])
+
+    if(!cinemas || !screenings){
+        return <p>Loading</p>
+    }
+
     return (
         <motion.div id="selectDate" className="pt-20" layout  transition={{ layout: { duration: 0.7, ease: "easeIn" } }}>
             <motion.div layout className="flex flex-col md:flex-row items-center justify-between gap-10
@@ -80,8 +93,8 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                             <SelectContent>
                                 <SelectGroup className="text-text">
                                     <SelectLabel>Cinemas</SelectLabel>
-                                    {cinemas && cinemas.map((cinema,index) => (
-                                        <SelectItem className="cursor-pointer" value={cinema} key={index}>{cinema.name}</SelectItem>
+                                    {cinemas.filter(c=>screenings?.some(s=>s.cinemaId===c.id)).map((cinema,index) => (
+                                        <SelectItem className="cursor-pointer" value={cinema.id} key={index}>{cinema.name}</SelectItem>
                                     ))}
                                 </SelectGroup>
                             </SelectContent>
@@ -96,20 +109,36 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                                     key="box">
                             <p className="text-lg font-semibold text-center">Choose Date</p>
                             <div className="flex items-center gap-6 text-sm mt-5">
-                                <ChevronLeftIcon width={28} />
-                                <span className="grid grid-cols-3 gap-3 md:flex flex-wrap md:max-w-lg">
-                                {Object.keys(dateTime).slice(0, 5).map((date) => (
-                                    <Button
-                                        onClick={() => setSelectedDate(date)}
-                                        key={date}
-                                        className={`input-button ${selectedDate === date ? "!bg-second" : ""}`}
-                                    >
-                                        <span>{new Date(date).getDate()}</span>
-                                        <span>{new Date(date).toLocaleDateString("en-US", { month: "short" })}</span>
-                                    </Button>
-                                ))}
-                            </span>
-                                <ChevronRightIcon width={28} />
+                                <ChevronLeftIcon
+                                    width={28}
+                                    className="cursor-pointer"
+                                    onClick={() => setDateStartIdx(Math.max(0, dateStartIdx - 1))}
+                                />
+
+                                <div className="flex gap-3 overflow-hidden">
+                                    {uniqueDates.slice(dateStartIdx, dateStartIdx + 5).map((dateStr, idx) => (
+                                        <Button
+                                            key={idx}
+                                            onClick={() => setSelectedDate(dateStr)}
+                                            className={`input-button ${
+                                                selectedDate === dateStr ? "!bg-second" : ""
+                                            }`}
+                                        >
+                                            <span>{new Date(dateStr).getDate()}</span>
+                                            <span>{new Date(dateStr).toLocaleDateString("en-US", { month: "short" })}</span>
+                                        </Button>
+                                    ))}
+                                </div>
+
+                                <ChevronRightIcon
+                                    width={28}
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                        setDateStartIdx(
+                                            Math.min(uniqueDates.length - 5, dateStartIdx + 1)
+                                        )
+                                    }
+                                />
                             </div>
                         </motion.div>
                     )}
@@ -129,16 +158,21 @@ const WeekDays = ({dateTime, id }:{dateTime:any ,id:any}) => {
                         <div className="flex items-center gap-6 text-sm mt-5">
                             <Table>
                                 <TableBody className="flex flex-col">
-                                    {selectedCinema && selectedCinema.rooms.map((dummy, index) => (
-
-                                            <TableRow onClick={() => setSelectedScreening(dummy.name)}
-                                                      className={`cursor-pointer rounded-md m-1 bg-bg/10 hover:bg-second/70 ${selectedScreening&&(selectedScreening === dummy.name ) ? "bg-second " : ""}`}
-                                                      key={index}>
-                                                <TableCell>{dummy.name}</TableCell>
-                                                <TableCell>{dummy[1]}</TableCell>
-                                            </TableRow>
-
-                                    ))}
+                                    {selectedCinema && screenings
+                                            .filter(s => s.cinemaId === selectedCinema)
+                                            .filter(s => new Date(s.time).toDateString() === new Date(selectedDate).toDateString())
+                                            .map((s, idx) => (
+                                                <TableRow
+                                                    key={idx}
+                                                    onClick={() => setSelectedScreening(s.id)}
+                                                    className={`cursor-pointer rounded-md m-1 hover:bg-second/70 ${
+                                                        selectedScreening === s.id ? "bg-second" : "bg-bg/10"
+                                                    }`}
+                                                >
+                                                    <TableCell>{s.room.name}</TableCell>
+                                                    <TableCell>{new Date(s.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</TableCell>
+                                                </TableRow>
+                                            ))}
                                 </TableBody>
                             </Table>
                         </div>
