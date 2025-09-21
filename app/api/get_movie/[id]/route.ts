@@ -9,7 +9,8 @@ export async function GET(req: NextRequest ,{params}:{params:{id: string}}) {
         const movie = await prisma.movie.findUnique({
             where:{Id:  id},
             include:{genres:true,
-            trailer:true,}
+            trailer:true,},
+            cacheStrategy:{ swr: 60, ttl: 300 },
         })
 
         return NextResponse.json(movie);

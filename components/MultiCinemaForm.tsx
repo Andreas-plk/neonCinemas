@@ -111,7 +111,6 @@ export default function ScreeningForm({ tmdbId }: {tmdbId: number}) {
             }
         }
 
-        console.log(cinemasSchedule)
         try {
             const res = await fetch("/api/add_movie", {
                 method: "POST",

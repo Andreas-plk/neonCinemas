@@ -21,6 +21,7 @@ export async function GET(req: Request) {
         orderBy: {
             time: "asc",
         },
+        cacheStrategy: { swr: 60, ttl: 300 }
     });
     if (screenings.length === 0) {
         return NextResponse.json([]);

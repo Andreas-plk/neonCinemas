@@ -2,9 +2,11 @@ import CinemaSeats from "@/components/CinemaSeats";
 import {getScreening} from "@/app/actions";
 
 
-const Page = async ({id,screeningId}:{id:string,screeningId:string}) => {
+const Page = async ({params}:{params:Promise<{id:string,screeningId:string}>}) => {
+    const {id,screeningId} = await params;
     const screening = await getScreening(screeningId);
     console.log(screening);
+    console.log(screeningId);
     if (!screening) {
         return ;
     }

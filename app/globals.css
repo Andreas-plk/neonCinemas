@@ -51,8 +51,8 @@
   --radius: 0.625rem;
   --background: var(--color-bg);
   --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card: var(--color-bg);
+  --card-foreground: var(--color-text);
   --popover: var(--color-bg);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.205 0 0);

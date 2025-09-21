@@ -1,4 +1,4 @@
-import {genresData} from "@/assets/assets";
+import {genresData} from "@/lib/constants";
 import {tmdbMovie} from '@/types/types'
 import DialogButton from "@/components/DialogButton";
 
@@ -18,7 +18,6 @@ const NewMovie = ({movie}:{movie:tmdbMovie}) => {
 
             </div>
             <div className="flex w-full justify-center items-center text-sm text-text/80 mb-3 ">
-                {/*<ImportButton tmdbId={movie.id}/>*/}
                 <DialogButton tmdbId={movie.id}/>
             </div>
 

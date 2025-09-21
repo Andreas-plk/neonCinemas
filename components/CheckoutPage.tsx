@@ -7,7 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import {convertToSubcurrency} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
-import {BeatLoader} from "react-spinners";
+import {BeatLoader, CircleLoader} from "react-spinners";
 import {useParams} from "next/navigation";
 import {Ticket} from "@/types/types";
 
@@ -38,7 +38,7 @@ const CheckoutPage = ({amount,tickets}:{amount:number,tickets:Ticket[]}) => {
     const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-        if(!stripe || !elements) return;
+        if(!stripe || !elements ) return;
 
 
         const {error:submitError}=await elements.submit();
@@ -53,7 +53,7 @@ const CheckoutPage = ({amount,tickets}:{amount:number,tickets:Ticket[]}) => {
             elements,
             clientSecret,
             confirmParams:{
-                return_url:`http://localhost:3000/booking/5`,
+                return_url:`http://localhost:3000/booking/success`,
             }
         })
 
@@ -69,15 +69,18 @@ const CheckoutPage = ({amount,tickets}:{amount:number,tickets:Ticket[]}) => {
     return (
         <div className="flex justify-center items-center ">
             <form onSubmit={handleSubmit}>
-                {clientSecret && <PaymentElement
+                {clientSecret ?<div> <PaymentElement
                 options={{
                     layout:"accordion"
-                }}/>}
-                {error && <div>{error}</div>}
-                <Button disabled={loading} className="my-button button-glow my-5 w-full!">
-                    {loading ? <BeatLoader color={"#EDEDED"} speedMultiplier={0.5}/> : `Pay ${amount}€`}
+                }}/>
+                    <Button disabled={loading} className="my-button button-glow my-5 w-full!">
+                        {loading ? <BeatLoader color={"#EDEDED"} speedMultiplier={0.5}/> : `Pay ${amount}€`}
 
-                </Button>
+                    </Button>
+                </div>:<CircleLoader color={"#FF7675"}/>
+                }
+                {error && <div>{error}</div>}
+
             </form>
         </div>
     )

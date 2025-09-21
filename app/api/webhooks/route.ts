@@ -7,11 +7,11 @@ import { SeatType } from "@prisma/client";
 
 
 
+
 export async function POST(req: NextRequest)  {
     const body = await req.text();
     const headersList = await headers();
     const sig =headersList.get('stripe-signature')as string;
-
    if(!process.env.STRIPE_WEBHOOK_SECRET){
        throw new Error('NO WEBHOOK_SECRET provided');
    }
@@ -23,22 +23,50 @@ export async function POST(req: NextRequest)  {
         const screeningId = paymentIntent.metadata.screeningId;
         const tickets = JSON.parse(paymentIntent.metadata.tickets || "[]");
         const amount = paymentIntent.amount / 100; // από cents → €
+        const email = paymentIntent.metadata.email;
+        const paymentIntentId = paymentIntent.id;
 
         console.log("Webhook hit! Tickets:", tickets);
 
         try {
-            await prisma.booking.create({
-                data: {
-                    totalPrice: amount,
-                    screeningId,
-                    selectedSeats: {
-                        create: tickets.map((t: { seat: string; type: SeatType }) => ({
-                            seat: t.seat,
-                            type: t.type,
-                        })),
+            if(email){
+                const user= await prisma.user.findUnique({
+                    where: {email},
+                    select: {id:true}
+                })
+                if(!user){
+                    throw new Error("User does not exist!");
+                }
+                await prisma.booking.create({
+                    data: {
+                        totalPrice: amount,
+                        screeningId,
+                        userId:user.id,
+                        paymentIntentId,
+                        selectedSeats: {
+                            create: tickets.map((t: { seat: string; type: SeatType }) => ({
+                                seat: t.seat,
+                                type: t.type,
+                            })),
+                        },
                     },
-                },
-            });
+                });
+            }else {
+                await prisma.booking.create({
+                    data: {
+                        totalPrice: amount,
+                        screeningId,
+                        paymentIntentId,
+                        selectedSeats: {
+                            create: tickets.map((t: { seat: string; type: SeatType }) => ({
+                                seat: t.seat,
+                                type: t.type,
+                            })),
+                        },
+                    },
+                });
+            }
+
             console.log("Booking created successfully!");
         } catch (error) {
             console.error("Booking creation failed:", error);

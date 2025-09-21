@@ -17,6 +17,7 @@ import {useState} from "react";
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import SignInClient from "@/components/sign-in-client";
 import Link from "next/link";
+import {registerUser} from "@/app/actions";
 
 type CardProps = {
     onClick: (e: React.SyntheticEvent) => void;
@@ -54,11 +55,10 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
         },
     })
 
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+       const user = await registerUser(values.email,values.password)
+       console.log(user)
+
     }
 
     return (

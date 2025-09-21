@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import SignInClient from "@/components/sign-in-client";
+import {signIn} from "next-auth/react";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
 
 type CardProps = {
     onClick: (e: React.SyntheticEvent) => void;
@@ -24,20 +27,11 @@ type CardProps = {
 
 const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
     const [visible, setVisible] = useState(false);
-
+    const router = useRouter();
     const formSchema = z.object({
         email: z
-            .email({ message: "Email is required" }),
-        password: z
-            .string()
-            .min(6, { message: "Password must be at least 6 characters" })
-            .max(16, { message: "Password must be at most 16 characters" })
-            .regex(/[a-zA-Z]/, { message: "Contain at least one letter." })
-            .regex(/[0-9]/, { message: "Contain at least one number." })
-            .regex(/[^a-zA-Z0-9]/, {
-                message: "Contain at least one special character."
-            })
-            .trim()
+            .email({ error: "Email is required" }),
+        password: z.string({error:"Password is required"})
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -48,8 +42,18 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
         }
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        const res = await signIn("credentials", {
+            email: values.email,
+            password: values.password,
+            redirect:false ,
+        });
+
+        if (res?.error) {
+            toast.error("No user found.");
+        } else {
+           router.push("/");
+        }
     }
 
     return (
@@ -75,6 +79,7 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
                                         <Input
                                             className="bg-primer border-none text-black focus:shadow-lg focus:shadow-second/70"
                                             placeholder="demo@email.com"
+                                            type="email"
                                             {...field}
                                         />
                                     </FormControl>

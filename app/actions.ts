@@ -14,24 +14,44 @@ export async function getMovies(){
                 genres: true,
                 trailer: true,
             },
-            cacheStrategy: {
-                ttl: 10
-            }
+            cacheStrategy: { swr: 60, ttl: 300 }
         });
     }catch (error){
         console.error(error);
     }
 }
 
-export async function getCinemas(){
+export async function getUser(email:string){
     try{
-        return await prisma.cinema.findMany({
-            include:{rooms:true}
-        })
+        return await prisma.user.findUnique({where:{email}})
     }catch(err){
         console.error(err);
     }
 }
+
+export async function registerUser(email:string,password:string){
+
+    const existingUser = await prisma.user.findUnique({
+        where: { email }
+    });
+
+    if (existingUser) {
+        throw new Error("User already exists");
+    }
+    const bcrypt= require("bcrypt");
+    const pwHash= await bcrypt.hash(password,12);
+    const user = await prisma.user.create({
+        data: {
+            email,
+            password: pwHash,
+        },
+    });
+
+    return user;
+
+}
+
+
 
 export async function getTickets(){
     try {
@@ -84,7 +104,25 @@ export async function getPrice(type:string){
 export async function getScreening(id:string){
     return await prisma.screening.findFirst({
         where:{id},
-        include:{room:true},
+        include:{
+            room:true
+        },
+    })
+}
+
+export async function getBooking(paymentIntentId:string){
+    return prisma.booking.findFirst({
+        where:{paymentIntentId},
+        include:{
+            selectedSeats:true,
+            user:true,
+            screening:{
+                include:{
+                    cinema:true,
+                    movie:true
+                }
+            },
+        }
     })
 }
 
