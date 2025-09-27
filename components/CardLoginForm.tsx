@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import{ useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,6 +27,7 @@ type CardProps = {
 
 const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false)
     const router = useRouter();
     const formSchema = z.object({
         email: z
@@ -43,6 +44,7 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
     });
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        setLoading(true)
         const res = await signIn("credentials", {
             email: values.email,
             password: values.password,
@@ -50,10 +52,11 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
         });
 
         if (res?.error) {
-            toast.error("No user found.");
+            toast.error("Wrong email or password. Please try again.");
         } else {
            router.push("/");
         }
+        setLoading(false)
     }
 
     return (
@@ -122,12 +125,12 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
                         />
 
                         <div className="flex flex-row justify-between items-center">
-                            <Button className="!w-full my-button button-glow" type="submit">Login</Button>
+                            <Button disabled={loading} className="!w-full my-button button-glow" type="submit">{loading ?"loading...":"Login"}</Button>
 
                         </div>
                     </form>
                 </Form>
-                <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow">
+                <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow md:mt-2">
                     <SignInClient/>
                 </p>
             </div>

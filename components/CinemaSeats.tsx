@@ -13,7 +13,8 @@ import {Ticket} from "@/types/types";
 import {getPrice} from "@/app/actions";
 import {SeatType} from "@prisma/client";
 
-const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,seatsPerRow:number,sections:number,screeningId:string,id:string}) => {
+const CinemaSeats = ({rows,seatsPerRow,sections,preSelectedSeats,screeningId,id}:
+                     {rows:number,seatsPerRow:number,sections:number,preSelectedSeats:string[],screeningId:string,id:string}) => {
     const variants = {
         rest: { },
         hover: { },
@@ -24,8 +25,6 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
     const [selectedTickets, setSelectedTickets] = useState<Ticket[]>([])
     const containerRef = useRef<HTMLDivElement>(null);
     const [centered, setCentered] = useState(true);
-
-    const dummySelected=["G5","G6","K10","K11","K12","A1","S3","A2","A4"]
 
     useEffect(() => {
         const checkWidth = () => {
@@ -99,9 +98,9 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
                 {Array.from({ length: seatsPerRow }, (_, seatIndex) => (
                     <motion.button
                         key={seatIndex}
-                        disabled={dummySelected.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))}
+                        disabled={preSelectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))}
                         className={`input-button !w-6 !h-6 p-0 flex items-center justify-center relative mx-1 md:mx-2 
-                        ${dummySelected.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))?"!bg-red-700" :
+                        ${preSelectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))?"!bg-red-700" :
                             selectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))?"!bg-second":""}`}
 
                         variants={variants}
@@ -112,7 +111,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
                         {!selectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex))) &&<motion.div
                             className='absolute'
                             animate={selectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex))) ||
-                            dummySelected.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))
+                            preSelectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))
                                 ? 'hover' : undefined}
                             variants={{
                                 rest: {opacity: 1, y: 0},
@@ -125,7 +124,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
                         <motion.a
                         className='absolute text-xs md:text-md'
                         animate={selectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex))) ||
-                            dummySelected.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))
+                        preSelectedSeats.includes(getSeat(rowIndex,seatIndex + 1+(seatsPerRow*sectionIndex)))
                             ? 'hover' : undefined}
                         variants={{
                             rest: { opacity: 0, y: -20 },
@@ -147,7 +146,7 @@ const CinemaSeats = ({rows,seatsPerRow,sections,screeningId,id}:{rows:number,sea
 
     return (
         <div className="w-full flex flex-col md:flex-row justify-start overflow-hidden">
-            <div className="w-full md:w-3/4  max-w-6xl px-2 md:px-10">
+            <div className="w-full md:w-3/4 max-w-8xl  px-2 md:px-10">
                 <div
                     ref={containerRef}
                     className={`flex gap-6 overflow-x-auto ${

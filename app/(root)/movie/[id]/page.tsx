@@ -75,29 +75,7 @@ const Page =   () => {
                             transition={{ type: "spring", stiffness: 300 }}
                             onClick={() => setFavorite(!favorite)}
                         >
-                              {/*{favorite ? (*/}
 
-                              {/*    <Tooltip>*/}
-                              {/*        <TooltipTrigger><MdFavorite*/}
-                              {/*            key="filled"*/}
-                              {/*            className="size-10  cursor-pointer "*/}
-                              {/*        /></TooltipTrigger>*/}
-                              {/*        <TooltipContent>*/}
-                              {/*            <p>Remove from Favorites</p>*/}
-                              {/*        </TooltipContent>*/}
-                              {/*    </Tooltip>*/}
-                              {/*) : (*/}
-                              {/*    <Tooltip>*/}
-                              {/*        <TooltipTrigger><MdFavoriteBorder*/}
-                              {/*            key="outline"*/}
-                              {/*            className="size-10 cursor-pointer "*/}
-                              {/*        /></TooltipTrigger>*/}
-                              {/*        <TooltipContent>*/}
-                              {/*            <p>Add to Favorites</p>*/}
-                              {/*        </TooltipContent>*/}
-                              {/*    </Tooltip>*/}
-
-                              {/*)}*/}
                         </motion.div>
 
                     </div>

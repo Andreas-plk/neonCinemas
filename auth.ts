@@ -4,7 +4,6 @@ import {PrismaAdapter} from "@auth/prisma-adapter";
 import Google from "next-auth/providers/google"
 import Credentials from "next-auth/providers/credentials"
 import {getUser} from "@/app/actions";
-import {redirect} from "next/navigation";
 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -16,9 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 password: {},
             },
             authorize: async (credentials) => {
-                console.log(credentials.email)
                 const user = await getUser(credentials.email as string);
-                console.log(user)
                 if (!user) {
                     return null
                 }
@@ -39,5 +36,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         maxAge: 30 * 60,
         updateAge: 15 * 60
     },
+
+
 
 })

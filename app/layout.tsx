@@ -4,7 +4,6 @@ import "./globals.css";
 import {Toaster} from "@/components/ui/sonner";
 
 
-
 const montserratSans = Montserrat({
     variable: "--font-montserrat",
     weight:"500",

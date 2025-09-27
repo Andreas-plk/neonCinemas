@@ -10,7 +10,7 @@ const AdminSidebar = () => {
     const items = [
         {
             title: "Home",
-            url: "#",
+            url: "/admin/dashboard",
             icon: Home,
         },
         {

@@ -12,7 +12,7 @@ export async function GET(req: Request) {
     const screenings = await prisma.screening.findMany({
         where: {
             movie: { Id },
-            isActive: true,
+            time: { gte:new Date() },
         },
         include: {
             room: true,

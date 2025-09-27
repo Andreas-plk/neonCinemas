@@ -1,12 +1,11 @@
 import CinemaSeats from "@/components/CinemaSeats";
-import {getScreening} from "@/app/actions";
+import {getScreening, getSelectedSeats} from "@/app/actions";
 
 
 const Page = async ({params}:{params:Promise<{id:string,screeningId:string}>}) => {
     const {id,screeningId} = await params;
     const screening = await getScreening(screeningId);
-    console.log(screening);
-    console.log(screeningId);
+    const selectedSeats =await getSelectedSeats(screeningId)
     if (!screening) {
         return ;
     }
@@ -19,7 +18,7 @@ const Page = async ({params}:{params:Promise<{id:string,screeningId:string}>}) =
                 </svg>
                 <span className="text-sm uppercase text-text/70 mt-1">screen</span>
             </div>
-            <CinemaSeats rows={screening.room.rows} seatsPerRow={screening.room.seatsPerRow} sections={screening.room.sections} screeningId={screeningId} id={id}/>
+            <CinemaSeats rows={screening.room.rows} seatsPerRow={screening.room.seatsPerRow} sections={screening.room.sections} preSelectedSeats={selectedSeats} screeningId={screeningId} id={id}/>
           </div>
     )
 }

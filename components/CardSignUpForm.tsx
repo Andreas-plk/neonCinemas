@@ -1,5 +1,4 @@
 'use client'
-import React from 'react'
 import {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -16,8 +15,10 @@ import { Input } from "@/components/ui/input"
 import {useState} from "react";
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import SignInClient from "@/components/sign-in-client";
-import Link from "next/link";
 import {registerUser} from "@/app/actions";
+import {toast} from "sonner";
+import {useRouter} from "next/navigation";
+import {signIn} from "next-auth/react";
 
 type CardProps = {
     onClick: (e: React.SyntheticEvent) => void;
@@ -26,6 +27,8 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
 
     const [visiblePassword, setVisiblePassword] = useState(false);
     const [visibleRepeat, setVisibleRepeat] = useState(false);
+    const [loading, setLoading] = useState(false)
+    const router = useRouter();
     const formSchema = z.object({
         email: z.email({
             error: 'Email is required',
@@ -56,8 +59,28 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-       const user = await registerUser(values.email,values.password)
-       console.log(user)
+       try{
+           setLoading(true)
+           const user = await registerUser(values.email,values.password)
+       }catch (e){
+           toast.error((e as Error).message)
+       }finally
+        {
+            const res = await signIn("credentials", {
+                email: values.email,
+                password: values.password,
+                redirect:false ,
+            });
+
+            if (res?.error) {
+                toast.error("No user found.");
+            } else {
+                router.push("/");
+            }
+            setLoading(false)
+        }
+
+
 
     }
 
@@ -131,14 +154,14 @@ const CardSignUpForm :React.FC<CardProps> = ({onClick}) => {
                                     </FormItem>)}
                             />
                             <div className="flex flex-row justify-between items-center">
-                                <Button className="!w-full my-button button-glow" type="submit">Sign Up</Button>
+                                <Button disabled={loading} className="!w-full my-button button-glow" type="submit">{loading ?"loading...":"Sign up"}</Button>
 
                             </div>
 
                         </form>
                     </Form>
 
-                    <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow">
+                    <p className="text-primer border-none rounded-full flex p-1 hover:text-second button-glow md:mt-2">
                         <SignInClient/>
                     </p>
 

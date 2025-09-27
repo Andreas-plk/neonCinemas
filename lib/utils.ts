@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Stripe, loadStripe } from '@stripe/stripe-js';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -43,3 +45,11 @@ export const formatPrice=(amount:any) =>{
         currency: "EUR"
     }).format(Number(amount));
 }
+
+export const getRandomNumber = ()=>{
+    const minCeiled = Math.ceil(10000);
+    const maxFloored = Math.floor(99999);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+}
+
+

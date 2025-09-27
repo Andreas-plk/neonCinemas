@@ -13,15 +13,21 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import SignOutClient from "@/components/sign-out-client";
-import { Menu, X } from "lucide-react";
+import {ChevronDown, ChevronUp, Menu, X} from "lucide-react";
 import {useSession} from "next-auth/react";
-import {Cinema} from "@prisma/client";
+import {Cinema, User} from "@prisma/client";
+import { motion, AnimatePresence } from "framer-motion";
+import UserDropdown from "@/components/UserDropdown";
+import {getUser} from "@/app/actions";
+
 
 
 
 const Navbar =  () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [cinemas, setCinemas] = useState([])
+    const [cinemaOpen, setCinemaOpen] = useState(false);
+    const [userData, setUserData] = useState<User|null|undefined>();
     const { data: session }=useSession();
     useEffect(() => {
         try {
@@ -32,6 +38,18 @@ const Navbar =  () => {
         }
 
     },[])
+
+    useEffect(() => {
+        const fetchUser= async ()=>{
+            if(session?.user?.email){
+                const currentUser= await getUser(session.user.email)
+                if(!currentUser) return ;
+                setUserData(currentUser)
+            }
+        }
+        fetchUser();
+    }, [session]);
+
     return (
         <nav className="relative w-full rounded-b-xl z-50 fade-shadow-right">
             <div className="mx-auto px-4 md:px-10 py-3 flex items-center justify-between">
@@ -81,20 +99,20 @@ const Navbar =  () => {
                                     </Link>
                                 </NavigationMenuLink>
                             </NavigationMenuItem>
-                            {/*{session?.user ? (*/}
-                            {/*    <NavigationMenuItem>*/}
-                            {/*        <NavigationMenuLink asChild>*/}
-                            {/*            <Link*/}
-                            {/*                href="/favorites"*/}
-                            {/*                className="cursor-pointer rounded-4xl w-[100px] text-center hover:bg-second hover:text-black py-2"*/}
-                            {/*            >*/}
-                            {/*                Favorites*/}
-                            {/*            </Link>*/}
-                            {/*        </NavigationMenuLink>*/}
-                            {/*    </NavigationMenuItem>*/}
-                            {/*) : (*/}
-                            {/*    <></>*/}
-                            {/*)}*/}
+                            {session?.user ? (
+                                <NavigationMenuItem>
+                                    <NavigationMenuLink asChild>
+                                        <Link
+                                            href="/booking/list"
+                                            className="cursor-pointer rounded-4xl w-[100px] text-center hover:bg-second hover:text-black py-2"
+                                        >
+                                            Bookings
+                                        </Link>
+                                    </NavigationMenuLink>
+                                </NavigationMenuItem>
+                            ) : (
+                                <></>
+                            )}
                         </NavigationMenuList>
                     </NavigationMenu>
                 </div>
@@ -102,14 +120,12 @@ const Navbar =  () => {
                 <div className="hidden md:flex items-center gap-4">
                     {session?.user ? (
                         <>
-                            <span>Hello {session.user.name}</span>
-                            <SignOutClient />
+                            <p>{userData?.name}</p>
+                        <UserDropdown user={session.user} />
                         </>
                     ) : (
                         <Link href="/authorization">
-                            <Button className="my-button button-glow">
-                                Login
-                            </Button>
+                            <Button className="my-button button-glow">Login</Button>
                         </Link>
                     )}
                 </div>
@@ -125,41 +141,80 @@ const Navbar =  () => {
                 </button>
             </div>
 
-            {/* Mobile menu */}
-            {mobileOpen && (
-                <div  className="md:hidden px-4 pb-4 space-y-4">
-                    <div>
-                        <p className="font-semibold">Cinemas</p>
-                        <ul className="ml-2 mt-2 space-y-2 text-sm">
-                            <li>
-                                <Link href="#" className="block hover:text-second">
-                                    Athens
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="#" className="block hover:text-second">
-                                    Thessaloniki
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                    <Link href="#" className="block hover:text-second font-semibold">
-                        About
-                    </Link>
-                    {session?.user ? (
-                        <div className="flex flex-col gap-2">
-                            <span>Hello {session.user.name}</span>
-                            <SignOutClient />
+            <AnimatePresence>
+                {mobileOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="md:hidden px-4 pb-4 overflow-hidden bg-bg border-t border-gray-200"
+                    >
+                        {/* Cinemas Collapsible */}
+                        <div>
+                            <button
+                                className="w-full flex justify-between items-center font-semibold py-2"
+                                onClick={() => setCinemaOpen(!cinemaOpen)}
+                            >
+                                Cinemas
+                                {cinemaOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            </button>
+
+                            <AnimatePresence>
+                                {cinemaOpen && (
+                                    <motion.ul
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                                        className="ml-2 mt-2 space-y-2 text-sm overflow-hidden"
+                                    >
+                                        {cinemas.map((cinema:Cinema, idx) => (
+                                            <li key={idx}>
+                                                <Link href="#" className="block hover:text-second">
+                                                    {cinema.name}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </motion.ul>
+                                )}
+                            </AnimatePresence>
                         </div>
-                    ) : (
-                        <Link href="/authorization">
-                            <Button className="w-full bg-primer hover:bg-second button-glow">
-                                Login
-                            </Button>
+
+                        {/* About */}
+                        <Link
+                            href="#"
+                            className="block hover:text-second font-semibold py-2"
+                        >
+                            About
                         </Link>
-                    )}
-                </div>
-            )}
+
+                        {/* Bookings */}
+                        {session?.user && (
+                            <Link
+                                href="/booking/list"
+                                className="block hover:text-second font-semibold py-2"
+                            >
+                                Bookings
+                            </Link>
+                        )}
+
+                        {/* Login / User */}
+                        {session?.user ? (
+                            <div className="flex flex-col gap-2 mt-2">
+                                <span>Hello {session.user.name}</span>
+                                <SignOutClient />
+                            </div>
+                        ) : (
+                            <Link href="/authorization">
+                                <Button className="w-full bg-primer hover:bg-second button-glow mt-2">
+                                    Login
+                                </Button>
+                            </Link>
+                        )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };

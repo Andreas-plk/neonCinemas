@@ -87,7 +87,7 @@ model Screening {
   isActive Boolean   @default(true)
   cinemaId String
   cinema   Cinema    @relation(fields: [cinemaId], references: [id])
-  movie    Movie     @relation(fields: [movieId], references: [Id])
+  movie    Movie     @relation(fields: [movieId], references: [Id], onDelete: Cascade)
   room     Room      @relation(fields: [roomId], references: [id])
   roomId   String
 }
@@ -118,7 +118,7 @@ model Booking {
   totalPrice      Decimal
   paymentIntentId String
   screeningId     String
-  screening       Screening      @relation(fields: [screeningId], references: [id])
+  screening       Screening      @relation(fields: [screeningId], references: [id], onDelete: Cascade)
   userId          String?
   user            User?          @relation(fields: [userId], references: [id])
   selectedSeats   SelectedSeat[]
