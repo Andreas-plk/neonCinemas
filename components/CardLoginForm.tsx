@@ -119,11 +119,18 @@ const CardLoginForm: React.FC<CardProps> = ({ onClick }) => {
                                             </button>
                                         </div>
                                     </FormControl>
+                                    <span className="w-full flex justify-end">
+                                        <p
+                                            className="text-xs text-text/90 cursor-pointer"
+                                            onClick={() => router.push("/forgot-password")}
+                                        >
+                                            Forgot Password?
+                                        </p>
+                                    </span>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-
                         <div className="flex flex-row justify-between items-center">
                             <Button disabled={loading} className="!w-full my-button button-glow" type="submit">{loading ?"loading...":"Login"}</Button>
 

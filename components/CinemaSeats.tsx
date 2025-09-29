@@ -12,6 +12,8 @@ import { indexToString } from "@/lib/utils";
 import {Ticket} from "@/types/types";
 import {getPrice} from "@/app/actions";
 import {SeatType} from "@prisma/client";
+import {useSession} from "next-auth/react";
+import {EmailModal} from "@/components/EmailModal";
 
 const CinemaSeats = ({rows,seatsPerRow,sections,preSelectedSeats,screeningId,id}:
                      {rows:number,seatsPerRow:number,sections:number,preSelectedSeats:string[],screeningId:string,id:string}) => {
@@ -20,8 +22,11 @@ const CinemaSeats = ({rows,seatsPerRow,sections,preSelectedSeats,screeningId,id}
         hover: { },
     };
     const router = useRouter();
+    const {data:session}=useSession();
+    const [modalOpen, setModalOpen] = useState(false)
+    const [TempEmail, setTempEmail] = useState<string|null>(null)
     const [selectedSeats, setSelectedSeats] = useState<string[]>([])
-    const { tickets, setTickets } = useTickets();
+    const { tickets, setTickets,setGuestEmail } = useTickets();
     const [selectedTickets, setSelectedTickets] = useState<Ticket[]>([])
     const containerRef = useRef<HTMLDivElement>(null);
     const [centered, setCentered] = useState(true);
@@ -37,6 +42,12 @@ const CinemaSeats = ({rows,seatsPerRow,sections,preSelectedSeats,screeningId,id}
             window.addEventListener("resize", checkWidth);
             return () => window.removeEventListener("resize", checkWidth);
         }, [sections]);
+
+    useEffect(() => {
+        if(TempEmail){
+            handleNext()
+        }
+    }, [TempEmail]);
 
     const getSeat=(row:number,num:number)=>{
        return  indexToString(row)+num.toString();
@@ -77,6 +88,11 @@ const CinemaSeats = ({rows,seatsPerRow,sections,preSelectedSeats,screeningId,id}
     };
 
     const handleNext = async () => {
+        if(!session?.user?.email && !TempEmail){
+            setModalOpen(true);
+            return;
+        }
+        setGuestEmail(TempEmail);
         const updatedTickets = await Promise.all(
             selectedTickets.map(async (ticket) => {
                 const price = await getPrice(ticket.type);
@@ -164,6 +180,13 @@ const CinemaSeats = ({rows,seatsPerRow,sections,preSelectedSeats,screeningId,id}
                     onClick={handleNext}>
                         PAY
                     </Button>
+                    <EmailModal
+                        open={modalOpen}
+                        onClose={() => setModalOpen(false)}
+                        onSubmit={(email) => {
+                            setTempEmail(email);
+                        }}
+                    />
                 </div>
 
                 <AnimatePresence>

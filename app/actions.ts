@@ -7,27 +7,48 @@ import {getRandomNumber} from "@/lib/utils";
 import {auth} from "@/auth";
 import fs from "fs";
 import path from "path";
+import {UniqueForge} from "unique-forge";
 
 
 
-export async function getMovies(){
+
+export async function getMovies() {
     try {
-        return await prisma.movie.findMany({
-
+        const movies = await prisma.movie.findMany({
             where: {
                 playingNow: true,
-                screenings:{
-                    some:{time:{gte:new Date()},}
-                }
+                screenings: {
+                    some: { time: { gte: new Date() } },
+                },
             },
             include: {
                 genres: true,
                 trailer: true,
+                screenings: {
+                    include: {
+                        _count: {
+                            select: { bookings: true },
+                        },
+                    },
+                },
             },
-            cacheStrategy: { ttl:0 }
+            cacheStrategy: { ttl: 0 },
         });
-    }catch (error){
+
+
+        return movies.map((movie) => {
+            const bookingCount = movie.screenings.reduce(
+                (acc, s) => acc + s._count.bookings,
+                0
+            );
+            return {
+                ...movie,
+                bookingCount,
+            };
+        });
+    } catch (error) {
         console.error(error);
+        return [];
     }
 }
 
@@ -253,7 +274,7 @@ export async function sendTicket(booking: any) {
     const nodemailer=require("nodemailer");
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const QRCode=require("qrcode");
-
+    const email:string = booking?.user?.email || booking?.guestEmail;
 
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage([595, 842]); // A4
@@ -310,7 +331,7 @@ export async function sendTicket(booking: any) {
 
     await transporter.sendMail({
         from: process.env.EMAIL_FROM,
-        to: booking.user.email,
+        to: email ,
         subject: `Your Ticket #${booking.id}`,
         text: "Thank you for booking! Your ticket is attached.",
         attachments: [
@@ -319,4 +340,138 @@ export async function sendTicket(booking: any) {
     });
 
     return { success: true };
+}
+
+export async function resetPassword({ email }: { email: string }) {
+    const user = await prisma.user.findUnique({where: { email }});
+    if(!user) {
+        throw new Error("User not found!");
+    }
+    const forge =  new UniqueForge();
+    const resetToken = forge.generate() as string;
+    const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour expiry
+
+    await prisma.user.update({
+        where: { email },
+        data: {resetToken ,resetTokenExpiry},
+    });
+
+    const resetUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password/${resetToken}`;
+
+
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const nodemailer = require('nodemailer');
+    const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT),
+        secure: false,
+        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+    });
+
+    await transporter.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: email ,
+        subject: "Password Reset",
+        html:`<p>Click <a href="${resetUrl}">here</a> to reset your password</p>`,
+    });
+
+    return {message:"Email Sent!"};
+
+}
+
+export async function updatePassword({token,password,confirmPassword}:{token: string, password: string, confirmPassword: string}) {
+
+    if (!password || !confirmPassword) {
+        throw new Error("Both fields are required");
+    }
+
+    if (password !== confirmPassword) {
+        throw new Error("Passwords do not match");
+    }
+
+
+    const user = await prisma.user.findFirst({
+        where: {
+            resetToken: token,
+            resetTokenExpiry: { gte: new Date() },
+        },
+    });
+
+    if (!user) {
+        throw new Error("Invalid or expired token");
+    }
+
+
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bcrypt= require("bcrypt");
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+
+    await prisma.user.update({
+        where: { id: user.id },
+        data: {
+            password: hashedPassword,
+            resetToken: null,
+            resetTokenExpiry: null,
+        },
+    });
+
+
+    return { message: "Password updated successfully" };
+
+}
+
+export async function createVoucher(fd:FormData) {
+    const code = fd.get("code") as string;
+    const discountStr= fd.get("discount") as string;
+    const discount = parseInt(discountStr,10)
+
+    if (!code || isNaN(discount)) {
+        console.error("Invalid code or discount");
+        return;
+    }
+
+    try {
+        await prisma.voucher.create({
+            data: {code, discount },
+        })
+    }catch (err){
+        console.error(err);
+    }
+
+    revalidatePath("/admin/dashboard/vouchers")
+}
+export async function getVouchers(){
+    return await prisma.voucher.findMany();
+}
+
+export async function deleteVoucherById(fd:FormData) {
+    const id = fd.get("id") as string;
+    try {
+        await prisma.voucher.delete({where:{id:id}});
+    }catch (err){
+        console.error(err);
+        return;
+    }
+    revalidatePath("/admin/dashboard/vouchers")
+
+}
+
+export async function getVoucherDiscount(code:string,amount:number){
+    try {
+        const discount =await prisma.voucher.findFirst({
+            where:{code:code},
+            select:{discount:true},
+        });
+        console.log(discount);
+        if(!discount) {
+            return "No voucher discount found.";
+        }
+        return parseFloat((amount*(1-discount.discount/100)).toFixed(2));
+    }catch (e){
+        console.error(e);
+        return "No voucher discount found.";
+    }
+
+
 }

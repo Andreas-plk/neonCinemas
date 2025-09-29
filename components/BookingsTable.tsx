@@ -21,6 +21,7 @@ import {
 import { useState } from "react";
 import { deleteBooking } from "@/app/actions";
 import BookingPDFButton from "@/components/BookingPDFButton";
+import {Trash} from "lucide-react";
 
 interface BookingsTableProps {
     bookings: any[];
@@ -69,6 +70,7 @@ export default function BookingsTable({ bookings,admin=false }: BookingsTablePro
                                 size="sm"
                                 onClick={() => setSelectedId(b.id)}
                             >
+                                <Trash size={14}/>
                                 Delete
                             </Button>
 
@@ -90,7 +92,8 @@ export default function BookingsTable({ bookings,admin=false }: BookingsTablePro
                                             onClick={() => handleDelete(b.id)}
                                             disabled={isDeleting}
                                         >
-                                            {isDeleting ? "Deleting..." : "Delete"}
+
+                                            {isDeleting ?<><Trash size={14}/> {"Deleting..."}</> : <><Trash size={14}/> {"Delete"}</>}
                                         </Button>
                                     </DialogFooter>
                                 </DialogContent>

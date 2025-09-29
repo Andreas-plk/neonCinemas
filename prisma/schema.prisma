@@ -8,16 +8,18 @@ generator client {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  emailVerified DateTime?
-  password      String?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id               String          @id @default(cuid())
+  name             String?
+  email            String          @unique
+  emailVerified    DateTime?
+  password         String?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  resetToken       String?
+  resetTokenExpiry DateTime?
   // Optional for WebAuthn support
-  Authenticator Authenticator[]
+  Authenticator    Authenticator[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -117,6 +119,7 @@ model Booking {
   id              String         @id @default(cuid())
   totalPrice      Decimal
   paymentIntentId String
+  guestEmail      String?
   screeningId     String
   screening       Screening      @relation(fields: [screeningId], references: [id], onDelete: Cascade)
   userId          String?
@@ -154,6 +157,12 @@ model Trailer {
 
   movieId String @unique
   movie   Movie  @relation(fields: [movieId], references: [Id], onDelete: Cascade)
+}
+
+model Voucher {
+  id       String @id @default(cuid())
+  code     String
+  discount Int
 }
 
 model Session {

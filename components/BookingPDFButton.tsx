@@ -51,6 +51,9 @@ const BookingPDFButton = ({ booking,sendEmail=false }: { booking: any,sendEmail?
         if (booking.user) {
             doc.text(`User: ${booking.user.name ?? booking.user.email}`, 14, y);
             y += lineHeight;
+        }else{
+            doc.text(`Guest: ${booking.guestEmail}`, 14, y);
+            y += lineHeight;
         }
 
         doc.text(`Total Price: €${booking.totalPrice.toFixed(2)}`, 14, y);
@@ -78,7 +81,7 @@ const BookingPDFButton = ({ booking,sendEmail=false }: { booking: any,sendEmail?
         doc.setTextColor(100);
         doc.text(
             "Thank you for booking with Neon Cinemas! Enjoy your movie",
-            doc.internal.pageSize.getWidth() / 2,
+            doc.internal.pageSize.getWidth() / 2 - 20,
             doc.internal.pageSize.getHeight() - 20,
             { align: "center" }
         );
@@ -94,11 +97,8 @@ const BookingPDFButton = ({ booking,sendEmail=false }: { booking: any,sendEmail?
 
     useEffect(() => {
         if(sendEmail){
-            const canvas = qrRef.current;
-            if (canvas) {
-                const qrImage = canvas.toDataURL("image/png");
-                sendTicket(booking,qrImage)
-            }
+            sendTicket(booking)
+
 
         }
     }, []);

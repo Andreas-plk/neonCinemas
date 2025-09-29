@@ -25,7 +25,7 @@ const AdminSidebar = () => {
         },
         {
             title: "Vouchers",
-            url: "#",
+            url: "/admin/dashboard/vouchers",
             icon: TicketPercent,
         },
 

@@ -138,7 +138,7 @@
 }
 
 .movie-card {
-  @apply flex flex-col justify-between p-3 rounded-tr-2xl bg-bg/70 w-66 hover:translate-y-1 hover:scale-101 hover:rotate-1
+  @apply flex flex-col justify-between p-3 rounded-tr-2xl bg-bg/70 w-66 h-97 hover:translate-y-1 hover:scale-101 hover:rotate-1
   hover:shadow-md hover:shadow-second/60 transition duration-400;
 }
 

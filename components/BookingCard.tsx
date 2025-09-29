@@ -20,11 +20,16 @@ const BookingCard = ({booking}:{booking:any}) => {
                     <p><strong>Time:</strong> {new Date(booking.screening.time).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})}</p>
                 </div>
 
-                {booking.user && (
+                {booking.user ? (
                     <div>
                         <p><strong>User:</strong> {booking.user.name ?? booking.user.email}</p>
                     </div>
-                )}
+                ):
+                    <div>
+                        <p><strong>Guest:</strong> {booking.guestEmail}</p>
+                    </div>
+
+                }
 
                 <div>
                     <p><strong>Total Price:</strong> €{booking.totalPrice.toFixed(2)}</p>

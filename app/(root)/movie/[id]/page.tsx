@@ -14,6 +14,7 @@ import {
 import { motion } from 'motion/react';
 import WeekDays from "@/components/WeekDays";
 import {Movie} from "@/types/types"
+import ReviewsList from "@/components/ReviewsList";
 
 
 const Page =   () => {
@@ -90,7 +91,7 @@ const Page =   () => {
                     <WeekDays/>
             </div>
 
-
+            <ReviewsList id={movie.tmdbId}/>
 
 
 

@@ -1,6 +1,6 @@
 'use client';
 import {useTickets} from "@/context/TicketContext";
-import {redirect, useParams} from "next/navigation";
+import {redirect} from "next/navigation";
 import {convertToSubcurrency, formatPrice, getStripe} from '@/lib/utils'
 import {Elements} from '@stripe/react-stripe-js';
 import CheckoutPage from "@/components/CheckoutPage";
@@ -26,10 +26,8 @@ const Page = () => {
         getFullPrice(tickets)
     }, [tickets])
 
-
     return (
         <div className="flex flex-col justify-center md:flex-row m-4 md:m-10 gap-8">
-            {/* Ticket list */}
             <div className="w-full md:w-1/3 p-6 bg-bg/20 backdrop-blur-2xl border border-second/20 rounded-xl shadow-lg">
                 <h1 className="text-2xl font-bold mb-6 text-center text-second">Your Tickets</h1>
                 <div className="flex flex-col gap-4">
@@ -51,14 +49,14 @@ const Page = () => {
                 </div>
             </div>
 
-            {/* Payment */}
+
             <div className="w-full md:w-1/3">
                 <div className="sticky top-20 p-6 bg-bg/20 backdrop-blur-2xl border border-second/30 rounded-xl shadow-lg">
                     <Elements
                         stripe={stripe}
                         options={{
                             mode:"payment",
-                            amount:convertToSubcurrency(50),
+                            amount:convertToSubcurrency(total),
                             currency:"eur",
                             payment_method_configuration:'pmc_1Rw3i6FrTq2tG8lZNrvvGgxR',
                             appearance: {

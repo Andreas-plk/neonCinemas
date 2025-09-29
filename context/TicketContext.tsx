@@ -7,15 +7,18 @@ import {Ticket} from "@/types/types"
 interface TicketContextType  {
     tickets: Ticket[];
     setTickets: Dispatch<SetStateAction<Ticket[]>>;
+    guestEmail: string|null;
+    setGuestEmail: Dispatch<SetStateAction<string|null>>;
 }
 
 const TicketContext = createContext<TicketContextType | undefined>(undefined);
 
     export function TicketProvider({ children }: { children: React.ReactNode }) {
         const [tickets, setTickets] = useState<Ticket[]>([]);
+        const [guestEmail, setGuestEmail] = useState<string | null>(null)
 
         return (
-            <TicketContext.Provider value={{ tickets, setTickets }}>
+            <TicketContext.Provider value={{ tickets, setTickets,guestEmail,setGuestEmail }}>
                 {children}
             </TicketContext.Provider>
         );

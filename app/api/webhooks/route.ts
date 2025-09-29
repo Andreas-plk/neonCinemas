@@ -24,6 +24,7 @@ export async function POST(req: NextRequest)  {
         const tickets = JSON.parse(paymentIntent.metadata.tickets || "[]");
         const amount = paymentIntent.amount / 100; // από cents → €
         const email = paymentIntent.metadata.email;
+        const guestEmail = paymentIntent.metadata.guestEmail;
         const paymentIntentId = paymentIntent.id;
 
         console.log("Webhook hit! Tickets:", tickets);
@@ -51,12 +52,13 @@ export async function POST(req: NextRequest)  {
                         },
                     },
                 });
-            }else {
+            }else if(guestEmail) {
                 await prisma.booking.create({
                     data: {
                         totalPrice: amount,
                         screeningId,
                         paymentIntentId,
+                        guestEmail,
                         selectedSeats: {
                             create: tickets.map((t: { seat: string; type: SeatType }) => ({
                                 seat: t.seat,
@@ -65,6 +67,9 @@ export async function POST(req: NextRequest)  {
                         },
                     },
                 });
+            }
+            else {
+                throw new Error("Email missing.");
             }
 
             console.log("Booking created successfully!");
