@@ -37,7 +37,7 @@ const AdminSidebar = () => {
             <SidebarContent>
                 <SidebarGroup />
                 <SidebarGroupLabel>
-                    hello dude
+                    Actions
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>

@@ -2,9 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {Button} from "@/components/ui/button";
+import {adminLogin} from "@/app/actions";
 
 
-const adminPassword ="1234";
+
+
+
 
 const Page = () => {
     const [password, setPassword] = useState("");
@@ -12,11 +15,10 @@ const Page = () => {
     const router = useRouter();
 
 
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === adminPassword) {
-            router.push("/admin/dashboard");
+        if (await adminLogin(password)) {
+            router.push("/admin/dashboard")
         } else {
             setError("Wrong Password");
         }

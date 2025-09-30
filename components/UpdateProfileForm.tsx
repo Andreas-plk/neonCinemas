@@ -14,11 +14,21 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import {useEffect, useState} from "react";
-import { EyeIcon, EyeOffIcon } from 'lucide-react';
-import { useSession} from "next-auth/react";
+import {EyeIcon, EyeOffIcon, Trash} from 'lucide-react';
+import {signOut, useSession} from "next-auth/react";
 import { toast } from "sonner";
-import {getUser, updateUserProfile} from "@/app/actions";
+import {deleteUser, getUser, updateUserProfile} from "@/app/actions";
 import {User} from "@prisma/client";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog";
+import {Label} from "@/components/ui/label";
+import {useRouter} from "next/navigation";
 
 
 
@@ -28,7 +38,10 @@ const UpdateProfileForm = () => {
     const [visibleCurrent, setVisibleCurrent] = useState(false);
     const [visibleNew, setVisibleNew] = useState(false);
     const [userData, setUserData] = useState<User|null|undefined>();
-
+    const [dialog, setDialog] = useState(false)
+    const [error, setError] = useState('')
+    const [password, setPassword] = useState("");
+    const router = useRouter()
 
     useEffect(() => {
         const fetchUser= async ()=>{
@@ -100,7 +113,22 @@ const UpdateProfileForm = () => {
         }
     };
 
+    const handleDelete = async (email:string,password:string) => {
+        setError("");
+
+        try {
+            await deleteUser(email, password);
+            await signOut()
+            router.push("/");
+        } catch (e: any) {
+            setError(e.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
+        <div>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 min-w-1/5 max-w-md mx-auto p-5 rounded-2xl bg-bg/50 shadow-md shadow-second/60">
                 <FormField
@@ -165,6 +193,49 @@ const UpdateProfileForm = () => {
                 <Button className="w-full! my-button button-glow" type="submit" disabled={loading}>{loading ? "Updating..." : "Update Profile"}</Button>
             </form>
         </Form>
+            <div className="flex justify-center mt-10">
+            <Button variant="destructive" className="cursor-pointer" onClick={()=>setDialog(true)}>Delete Profile</Button>
+                <Dialog open={dialog} onOpenChange={() => setDialog(false)}>
+                    <DialogContent>
+                        <DialogHeader>
+                            <DialogTitle>Confirm deletion</DialogTitle>
+                            <DialogDescription>
+                                This action cannot be undone.Your account will be deleted and you will lose access to all your tickets.(Tickets are still valid if you have the PDF)
+                            </DialogDescription>
+                        </DialogHeader>
+                        {/* Password Input */}
+                        <div className="mt-4">
+                            <Label
+                                htmlFor="password" className="block text-sm font-medium ">
+                                Enter your password
+                            </Label>
+                            <Input
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-red-500 focus:ring focus:ring-red-200 focus:ring-opacity-50"
+                                placeholder="Password"
+                            />
+                            {error && <span className="text-sm text-red-500">{error}</span>}
+                        </div>
+                        <DialogFooter>
+                            <Button variant="outline" className="cursor-pointer" onClick={() => setDialog(false)}>
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="destructive"
+                                className="cursor-pointer"
+                                onClick={() => handleDelete(session?.user?.email?session.user.email:"",password)}
+                            >
+                                <Trash size={14}/> Delete
+                            </Button>
+
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        </div>
     );
 };
 

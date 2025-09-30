@@ -1,8 +1,12 @@
-import React from 'react'
+
 import {getAllBookings} from "@/app/actions";
 import BookingsTable from "@/components/BookingsTable";
 
-const Page =async () => {
+
+
+
+
+const Page = async () => {
 
     const bookings = await getAllBookings();
     return (

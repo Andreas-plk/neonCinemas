@@ -11,7 +11,6 @@ import {UniqueForge} from "unique-forge";
 
 
 
-
 export async function getMovies() {
     try {
         const movies = await prisma.movie.findMany({
@@ -85,6 +84,7 @@ export async function registerUser(email:string,password:string){
 
 export async function updateUserProfile(name:string,currentPassword?:string,newPassword?: string) {
     const session= await auth();
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const bcrypt= require("bcrypt");
     if (!session?.user?.email) {
         throw new Error("Not authenticated");
@@ -474,4 +474,92 @@ export async function getVoucherDiscount(code:string,amount:number){
     }
 
 
+}
+
+
+export async function getCinemaInfo() {
+    // Fetch all active cinemas with their rooms, screenings, movies, and prices
+    const cinemas = await prisma.cinema.findMany({
+        include: {
+            rooms: true,
+            screenings: {
+                where: {
+                    time: { gte: new Date() },
+                },
+                include: {
+                    movie: {
+                        include: {
+                            genres: true,
+                            trailer: true,
+                        },
+                    },
+                    room: true,
+                },
+            },
+        },
+        cacheStrategy:{
+            ttl:3600,
+            swr:120,
+        }
+    });
+
+    // Fetch prices for seat types
+    const prices = await prisma.price.findMany();
+
+    // Format the data for the chatbot prompt
+    return cinemas.map((cinema) => ({
+        id: cinema.id,
+        name: cinema.name,
+        location: cinema.location,
+        rooms: cinema.rooms.map((room) => ({
+            id: room.id,
+            name: room.name,
+            rows: room.rows,
+            seatsPerRow: room.seatsPerRow,
+            sections: room.sections,
+        })),
+        screenings: cinema.screenings.map((screening) => ({
+            id: screening.id,
+            time: screening.time,
+            room: {
+                id: screening.room.id,
+                name: screening.room.name,
+            },
+            movie: {
+                id: screening.movie.Id,
+                title: screening.movie.title,
+                overview: screening.movie.overview,
+                releaseDate: screening.movie.releaseDate,
+                genres: screening.movie.genres.map((g) => g.name),
+                trailer: screening.movie.trailer
+                    ? {key: screening.movie.trailer.key, site: screening.movie.trailer.site}
+                    : null,
+            },
+        })),
+    })).map((cinema) => ({
+        ...cinema,
+        prices: prices.map((p) => ({seatType: p.seatType, value: p.value})),
+    }));
+}
+
+export async function adminLogin(password:string) {
+    return password === process.env.ADMIN_PASSWORD;
+}
+
+export async function deleteUser(email:string,password:string) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bcrypt=require('bcrypt');
+    console.log(email);
+    const user = await prisma.user.findFirst({where:{email}});
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+        throw new Error("Wrong password");
+    }
+
+    await prisma.user.delete({ where: { id: user.id } });
+    return "User deleted successfully";
 }

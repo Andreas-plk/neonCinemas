@@ -1,13 +1,18 @@
+'use client'
 import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import AdminSidebar from "@/components/adminSidebar";
 
-const Layout =async ({
+
+
+
+const Layout = ({
                          children,
                      }: Readonly<{
     children: React.ReactNode;
 }>) =>
 
 {
+
     return (
         <SidebarProvider defaultOpen={false}>
             <AdminSidebar />

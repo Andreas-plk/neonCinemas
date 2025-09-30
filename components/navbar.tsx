@@ -92,7 +92,7 @@ const Navbar =  () => {
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild>
                                     <Link
-                                        href="#"
+                                        href="/about"
                                         className="cursor-pointer rounded-4xl w-[100px] text-center hover:bg-second hover:text-black py-2"
                                     >
                                         About
@@ -183,7 +183,7 @@ const Navbar =  () => {
 
                         {/* About */}
                         <Link
-                            href="#"
+                            href="/about"
                             className="block hover:text-second font-semibold py-2"
                         >
                             About
@@ -201,10 +201,10 @@ const Navbar =  () => {
 
                         {/* Login / User */}
                         {session?.user ? (
-                            <div className="flex flex-col gap-2 mt-2">
-                                <span>Hello {session.user.name}</span>
-                                <SignOutClient />
-                            </div>
+                            <>
+                                <p>{userData?.name}</p>
+                                <UserDropdown user={session.user} />
+                            </>
                         ) : (
                             <Link href="/authorization">
                                 <Button className="w-full bg-primer hover:bg-second button-glow mt-2">
