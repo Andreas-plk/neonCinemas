@@ -11,7 +11,7 @@ const Page = async () => {
     const bookings= await getUserBookings(session?.user?.email);
 
     if (bookings.length === 0) {
-        return <p>No bookings found.</p>;
+        return <p className="flex items-center justify-center h-svh text-2xl">No bookings found.</p>;
     }
 
     return (

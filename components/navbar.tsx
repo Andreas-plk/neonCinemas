@@ -65,6 +65,8 @@ const Navbar =  () => {
 
                 <div className="hidden md:flex items-center gap-10">
                     <NavigationMenu>
+
+
                         <NavigationMenuList className="flex gap-6 transition-all">
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger className="bg-transparent hover:bg-second transition cursor-pointer">
@@ -88,7 +90,16 @@ const Navbar =  () => {
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
-
+                            <NavigationMenuItem>
+                                <NavigationMenuLink asChild>
+                                    <Link
+                                        href="/"
+                                        className="cursor-pointer rounded-4xl w-[100px] text-center hover:bg-second hover:text-black py-2"
+                                    >
+                                        Movies
+                                    </Link>
+                                </NavigationMenuLink>
+                            </NavigationMenuItem>
                             <NavigationMenuItem>
                                 <NavigationMenuLink asChild>
                                     <Link
@@ -120,7 +131,7 @@ const Navbar =  () => {
                 <div className="hidden md:flex items-center gap-4">
                     {session?.user ? (
                         <>
-                            <p>{userData?.name}</p>
+                            {/*<p>{userData?.name}</p>*/}
                         <UserDropdown user={session.user} />
                         </>
                     ) : (
@@ -152,6 +163,12 @@ const Navbar =  () => {
                     >
                         {/* Cinemas Collapsible */}
                         <div>
+                            <Link
+                                href="/"
+                                className="block hover:text-second font-semibold py-2"
+                            >
+                                Movies
+                            </Link>
                             <button
                                 className="w-full flex justify-between items-center font-semibold py-2"
                                 onClick={() => setCinemaOpen(!cinemaOpen)}

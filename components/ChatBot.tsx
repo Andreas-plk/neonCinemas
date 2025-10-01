@@ -6,6 +6,7 @@ import {ArrowDownCircleIcon, MessageCircle, Send, X} from "lucide-react";
 import {motion, AnimatePresence} from "motion/react";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {ScrollArea} from "@/components/ui/scroll-area";
+import ReactMarkdown from "react-markdown";
 
 const ChatBot = () => {
     const [isChatOpen, setIsChatOpen] = useState(false)
@@ -88,7 +89,7 @@ const ChatBot = () => {
                                             {message.parts.map((part, i) => {
                                                 switch (part.type) {
                                                     case 'text':
-                                                        return <div key={`${message.id}-${i}`}>{part.text}</div>;
+                                                        return <div key={`${message.id}-${i}`}><ReactMarkdown>{part.text}</ReactMarkdown></div>;
                                                 }
                                             })}
                                             </div>

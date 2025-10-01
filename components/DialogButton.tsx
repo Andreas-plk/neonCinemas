@@ -10,7 +10,7 @@ const DialogButton = ({tmdbId}:{tmdbId:number}) => {
             </DialogTrigger>
             <DialogContent className="!max-w-2xl w-full flex flex-col justify-center items-center max-h-[90vh] overflow-y-auto p-6">
                 <DialogHeader>
-                    <DialogTitle>Δημιουργία Προβολών</DialogTitle>
+                    <DialogTitle>Create screenings</DialogTitle>
                 </DialogHeader>
                 <MultiCinemaForm tmdbId={tmdbId}/>
             </DialogContent>

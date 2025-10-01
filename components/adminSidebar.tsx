@@ -3,7 +3,7 @@ import {
     SidebarContent,
     SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Home,Film ,TicketPercent,Tickets} from "lucide-react"
+import { Home,Film ,TicketPercent,Tickets,LogOut} from "lucide-react"
 
 const AdminSidebar = () => {
 
@@ -28,6 +28,11 @@ const AdminSidebar = () => {
             url: "/admin/dashboard/vouchers",
             icon: TicketPercent,
         },
+        {
+            title: "Logout",
+            url: "/",
+            icon: LogOut,
+        }
 
     ]
     return (

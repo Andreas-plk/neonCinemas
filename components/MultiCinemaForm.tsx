@@ -19,7 +19,7 @@ interface ScreeningTime {
 }
 
 interface DaySchedule {
-    weekday: number; // 0=Κυρ, 1=Δευτέρα...
+    weekday: number; // 0=Κυρ...
     screenings: ScreeningTime[];
 }
 
@@ -103,10 +103,10 @@ export default function ScreeningForm({ tmdbId }: {tmdbId: number}) {
 
 
         for (const cinema of cinemasSchedule) {
-            if (!cinema.cinemaId) return alert("Επίλεξε σινεμά για όλα τα blocks!");
+            if (!cinema.cinemaId) return alert("Select cinema for all blocks!");
             for (const day of cinema.days) {
                 for (const screening of day.screenings) {
-                    if (!screening.roomId || !screening.time) return alert("Συμπλήρωσε όλες τις αίθουσες και ώρες!");
+                    if (!screening.roomId || !screening.time) return alert("Fill al the fields");
                 }
             }
         }
@@ -173,10 +173,10 @@ export default function ScreeningForm({ tmdbId }: {tmdbId: number}) {
                     {cinemasSchedule[cinemaIdx].cinemaId &&
                     <div className="flex gap-2">
                         <div className="flex flex-col gap-2">
-                            <Label htmlFor="startDate">Από</Label>
+                            <Label htmlFor="startDate">From</Label>
 
                                 <Button variant="outline" id="startDate" className="w-[240px] pl-3 text-left">
-                                    {cinemaBlock.startDate ? format(new Date(cinemaBlock.startDate), "yyyy-MM-dd") : "Επίλεξε ημερομηνία"}
+                                    {cinemaBlock.startDate ? format(new Date(cinemaBlock.startDate), "yyyy-MM-dd") : "Select date below"}
                                 </Button>
 
                                 <Calendar
@@ -197,9 +197,9 @@ export default function ScreeningForm({ tmdbId }: {tmdbId: number}) {
 
                         </div>
                         <div className="flex flex-col gap-2">
-                           <Label htmlFor="endDate">Έως</Label>
+                           <Label htmlFor="endDate">To</Label>
                             <Button variant="outline" id="endDate" className="w-[240px] pl-3 text-left">
-                                {cinemaBlock.endDate ? format(new Date(cinemaBlock.endDate), "yyyy-MM-dd") : "Επίλεξε ημερομηνία"}
+                                {cinemaBlock.endDate ? format(new Date(cinemaBlock.endDate), "yyyy-MM-dd") : "Select date below"}
                             </Button>
 
                             <Calendar
@@ -242,14 +242,14 @@ export default function ScreeningForm({ tmdbId }: {tmdbId: number}) {
                                     <Button size="sm" variant="destructive" className="cursor-pointer" type="button"  onClick={() => removeScreening(cinemaIdx, day.weekday, screeningIdx)}>X</Button>
                                 </div>
                             ))}
-                            <Button size="sm" type="button" variant="outline"  onClick={() => addScreening(cinemaIdx, day.weekday)} className="mt-1 cursor-pointer">Προσθήκη προβολής</Button>
+                            <Button size="sm" type="button" variant="outline"  onClick={() => addScreening(cinemaIdx, day.weekday)} className="mt-1 cursor-pointer">Add screening</Button>
                         </div>
                     ))}
-                    <Button size="sm" type="button" variant="destructive" className="w-full cursor-pointer" onClick={() => removeCinema(cinemaIdx)}>Αφαίρεση σινεμά</Button>
+                    <Button size="sm" type="button" variant="destructive" className="w-full cursor-pointer" onClick={() => removeCinema(cinemaIdx)}>Remove Cinema</Button>
                 </div>
             ))}
 
-            <Button className="my-button button-glow !w-full" type="button" onClick={addCinemaSchedule}>Προσθήκη σινεμά</Button>
+            <Button className="my-button button-glow !w-full" type="button" onClick={addCinemaSchedule}>Add Cinema</Button>
             <Button type="button" disabled={cinemasSchedule.length===0 || loading} onClick={handleSubmit} className="my-button button-glow w-full! my-4">
                 {loading ? "Importing..." : "Import Movie and create Screenings"}
             </Button>
