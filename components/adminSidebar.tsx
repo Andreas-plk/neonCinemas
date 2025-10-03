@@ -4,6 +4,8 @@ import {
     SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Home,Film ,TicketPercent,Tickets,LogOut} from "lucide-react"
+import {adminLogout} from "@/app/actions";
+import {redirect} from "next/navigation";
 
 const AdminSidebar = () => {
 
@@ -30,7 +32,7 @@ const AdminSidebar = () => {
         },
         {
             title: "Logout",
-            url: "/",
+            action:adminLogout,
             icon: LogOut,
         }
 
@@ -49,11 +51,20 @@ const AdminSidebar = () => {
                         {items.map((item) => (
                             <SidebarMenuItem key={item.title}>
                                 <SidebarMenuButton asChild>
-                                    <a href={item.url}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-
-                                    </a>
+                                    {item.action ? (
+                                        <button onClick={async ()=>{
+                                            await adminLogout()
+                                            redirect('/')
+                                        }} className="flex items-center gap-2 cursor-pointer">
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </button>
+                                    ) : (
+                                        <a href={item.url} className="flex items-center gap-2">
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </a>
+                                    )}
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         ))}

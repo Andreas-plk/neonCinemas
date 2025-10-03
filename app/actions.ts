@@ -1,5 +1,6 @@
 'use server'
 import prisma from "@/prisma";
+import  {cookies} from "next/headers";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import {SeatType} from "@prisma/client";
 import {revalidatePath} from "next/cache";
@@ -543,7 +544,22 @@ export async function getCinemaInfo() {
 }
 
 export async function adminLogin(password:string) {
-    return password === process.env.ADMIN_PASSWORD;
+    if( password === process.env.ADMIN_PASSWORD){
+        const cookieStore = await cookies();
+        cookieStore.set({
+            name:'adminAccess',
+            value:'True',
+            path:"/",
+            httpOnly:true
+        })
+        return true;
+    }
+    return false;
+}
+
+export async function adminLogout() {
+    const cookieStore = await cookies();
+    cookieStore.delete('adminAccess')
 }
 
 export async function deleteUser(email:string,password:string) {
